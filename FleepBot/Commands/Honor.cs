@@ -50,7 +50,8 @@ namespace FleepBot.Commands
 							}
 						}
 
-						int seed = (int)(DateTime.Now - new DateTime(1970, 1, 1)).TotalDays + account_id.Sum(c => System.Convert.ToInt32(c));
+						int dst = DateTime.Now.IsDaylightSavingTime() ? -11 : -10;
+						int seed = (int)(DateTime.Now.AddHours(dst) - new DateTime(1970, 1, 1)).Days + account_id.Sum(c => System.Convert.ToInt32(c));
 						Random rand = new Random(seed);
 						int i = rand.Next(0, members.Count - 1);
 
