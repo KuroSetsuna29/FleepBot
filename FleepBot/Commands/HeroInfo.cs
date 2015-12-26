@@ -63,7 +63,8 @@ namespace FleepBot.Commands
 			string msg = String.Format("No hero(s) found for '{0}'. Check spelling.", search);
 			if (stats.Item2.Count > 0)
 			{
-				msg = String.Format(":::\n{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}\n",
+				msg = String.Format("Hero Info for '{0}':\n:::\n{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}\n",
+						search,
 						"Hero".PadRight(heroLen),
 						"Effect".PadRight(effectLen),
 						"ATK+7".PadRight(atkLen),

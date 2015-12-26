@@ -101,7 +101,7 @@ namespace FleepBot
 							Console.WriteLine(String.Format("[{0}] {1}", time, message));
 
 							Ban.BanTimer bt = BANLIST.FirstOrDefault(x => x.member.ToLower() == account_id.ToLower());
-                            if (bt != null)
+							if (bt != null)
 							{
 								SendMessage(conversation_id, String.Format("{0} has been banned for {1}", bt.name, bt.TimeLeftAsString));
 								return;
@@ -113,83 +113,87 @@ namespace FleepBot
 							}
 							else if (Echo.regex.IsMatch(message))
 							{
-                                new Thread(() => Echo.execute(conversation_id, message)).Start();
+								new Thread(() => Echo.execute(conversation_id, message)).Start();
 							}
 							else if (WhoIsOn.regex.IsMatch(message))
 							{
-                                new Thread(() => WhoIsOn.execute(conversation_id, message)).Start();
+								new Thread(() => WhoIsOn.execute(conversation_id, message)).Start();
 							}
 							else if (IGN.regex.IsMatch(message))
 							{
-                                new Thread(() => IGN.execute(conversation_id, message, account_id)).Start();
+								new Thread(() => IGN.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (AtkHistory.regex.IsMatch(message))
 							{
-                                new Thread(() => AtkHistory.execute(conversation_id, message, account_id)).Start();
+								new Thread(() => AtkHistory.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (Teams.regex.IsMatch(message))
 							{
-                                new Thread(() => Teams.execute(conversation_id, message)).Start();
+								new Thread(() => Teams.execute(conversation_id, message)).Start();
 							}
 							else if (HeroInfo.regex.IsMatch(message))
 							{
-                                new Thread(() => HeroInfo.execute(conversation_id, message)).Start();
+								new Thread(() => HeroInfo.execute(conversation_id, message)).Start();
 							}
 							else if (HeroInfo7.regex.IsMatch(message))
 							{
-                                new Thread(() => HeroInfo7.execute(conversation_id, message)).Start();
+								new Thread(() => HeroInfo7.execute(conversation_id, message)).Start();
 							}
 							else if (Awaken.regex.IsMatch(message))
 							{
-                                new Thread(() => Awaken.execute(conversation_id, message)).Start();
+								new Thread(() => Awaken.execute(conversation_id, message)).Start();
 							}
 							else if (MyMatchUp.regex.IsMatch(message))
 							{
-                                new Thread(() => MyMatchUp.execute(conversation_id, message, account_id)).Start();
+								new Thread(() => MyMatchUp.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (GBPoints.regex.IsMatch(message))
 							{
-                                new Thread(() => GBPoints.execute(conversation_id, message)).Start();
+								new Thread(() => GBPoints.execute(conversation_id, message)).Start();
 							}
 							else if (Honor.regex.IsMatch(message))
 							{
-                                new Thread(() => Honor.execute(conversation_id, message, account_id)).Start();
+								new Thread(() => Honor.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (ListConv.regex.IsMatch(message))
 							{
-                                new Thread(() => ListConv.execute(conversation_id, message)).Start();
+								new Thread(() => ListConv.execute(conversation_id, message)).Start();
 							}
 							else if (ListMembers.regex.IsMatch(message))
 							{
-                                new Thread(() => ListMembers.execute(conversation_id, message)).Start();
+								new Thread(() => ListMembers.execute(conversation_id, message)).Start();
 							}
 							else if (DefSetup.regex.IsMatch(message))
 							{
-                                new Thread(() => DefSetup.execute(conversation_id, message)).Start();
+								new Thread(() => DefSetup.execute(conversation_id, message)).Start();
 							}
 							else if (Remind.regex.IsMatch(message))
 							{
-                                new Thread(() => Remind.execute(conversation_id, message, account_id)).Start();
+								new Thread(() => Remind.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (ListReminder.regex.IsMatch(message))
 							{
-                                new Thread(() => ListReminder.execute(conversation_id, message)).Start();
+								new Thread(() => ListReminder.execute(conversation_id, message)).Start();
 							}
 							else if (RemoveReminder.regex.IsMatch(message))
 							{
-                                new Thread(() => RemoveReminder.execute(conversation_id, message)).Start();
+								new Thread(() => RemoveReminder.execute(conversation_id, message)).Start();
 							}
 							else if (Ban.regex.IsMatch(message))
 							{
-                                new Thread(() => Ban.execute(conversation_id, message)).Start();
+								new Thread(() => Ban.execute(conversation_id, message)).Start();
 							}
 							else if (ListBan.regex.IsMatch(message))
 							{
-                                new Thread(() => ListBan.execute(conversation_id, message)).Start();
+								new Thread(() => ListBan.execute(conversation_id, message)).Start();
 							}
 							else if (Unban.regex.IsMatch(message))
 							{
-                                new Thread(() => Unban.execute(conversation_id, message)).Start();
+								new Thread(() => Unban.execute(conversation_id, message)).Start();
+							}
+							else if (Items.regex.IsMatch(message))
+							{
+								new Thread(() => Items.execute(conversation_id, message)).Start();
 							}
 						}
 					}
