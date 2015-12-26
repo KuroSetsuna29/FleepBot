@@ -27,6 +27,7 @@ namespace FleepBot.Commands
 				FleepBot.Program.COMMAND_PREFIX + "ign [ _InGameName_ ] - Set your IGN, passing empty _InGameName_ will display your currently set name",
 				FleepBot.Program.COMMAND_PREFIX + "myatkhistory - DEPRECATED. Please use " + FleepBot.Program.COMMAND_PREFIX + "mymatchup instead",
 				FleepBot.Program.COMMAND_PREFIX + "mymatchup [ _GuildName1_ | _Opponent1_ ] [, _GuildName2_ | _Opponent2_ ] - Show matchup score, optionally search for a list of opponents or guilds",
+				FleepBot.Program.COMMAND_PREFIX + "remind [Xd][Xh][Xm][Xs] _Message_ - Repeat _Message_ after delay specified.",
 				FleepBot.Program.COMMAND_PREFIX + "teams [ _Search_ ] - Search all teams for _Search_, leave blank to list all teams",
 				FleepBot.Program.COMMAND_PREFIX + "whoison [ _X_ ] - Show who was on Fleep in the past X hours (optional), default 1 hour",
 			};

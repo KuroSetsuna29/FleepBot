@@ -52,7 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Awaken.cs" />
+    <Compile Include="Commands\ListReminder.cs" />
+    <Compile Include="Commands\ListBan.cs" />
+    <Compile Include="Commands\RemoveReminder.cs" />
+    <Compile Include="Commands\Unban.cs" />
     <Compile Include="Commands\DefSetup.cs" />
+    <Compile Include="Commands\Ban.cs" />
+    <Compile Include="Commands\Remind.cs" />
     <Compile Include="Commands\RepeatMessage.cs" />
     <Compile Include="Commands\ListConv.cs" />
     <Compile Include="Commands\ListMembers.cs" />

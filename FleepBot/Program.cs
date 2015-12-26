@@ -38,7 +38,8 @@ namespace FleepBot
 		public static string JENNY = "71c8924b-db05-4216-bc2b-5fa975c34558";
 		public static string JACK = "1e0ca824-b45b-41b3-b76b-c2c663775e5f";
 
-		public static DateTime LAST_COSTUME = START;
+		public static List<Ban.BanTimer> BANLIST = new List<Ban.BanTimer>();
+		public static List<Remind.Reminder> REMINDERS = new List<Remind.Reminder>();
 
 		static void Main(string[] args)
 		{
@@ -47,7 +48,7 @@ namespace FleepBot
 			if (String.IsNullOrEmpty(ACCOUNT_ID))
 				throw new Exception("Failed to login!");
 
-			RepeatMessage costume = new RepeatMessage(SOULCHAT, "It's hammer time, don't forget to upgrade your costumes.", 200);
+			//RepeatMessage costume = new RepeatMessage(SOULCHAT, "It's hammer time, don't forget to upgrade your costumes.", 200);
 
 			while (!String.IsNullOrEmpty(ACCOUNT_ID))
 			{
@@ -97,7 +98,14 @@ namespace FleepBot
 						if (time >= START && account_id != ACCOUNT_ID)
 						{
 							Console.WriteLine(String.Format("[{0}] {1}", time, message));
-							
+
+							Ban.BanTimer bt = BANLIST.FirstOrDefault(x => x.member.ToLower() == account_id.ToLower());
+                            if (bt != null)
+							{
+								SendMessage(conversation_id, String.Format("{0} has been banned for {1}", bt.name, bt.TimeLeftAsString)).Wait(-1);
+								return;
+							}
+
 							if (Help.regex.IsMatch(message))
 							{
 								await Help.execute(conversation_id);
@@ -157,6 +165,30 @@ namespace FleepBot
 							else if (DefSetup.regex.IsMatch(message))
 							{
 								await DefSetup.execute(conversation_id, message);
+							}
+							else if (Remind.regex.IsMatch(message))
+							{
+								await Remind.execute(conversation_id, message, account_id);
+							}
+							else if (ListReminder.regex.IsMatch(message))
+							{
+								await ListReminder.execute(conversation_id, message);
+							}
+							else if (RemoveReminder.regex.IsMatch(message))
+							{
+								await RemoveReminder.execute(conversation_id, message);
+							}
+							else if (Ban.regex.IsMatch(message))
+							{
+								await Ban.execute(conversation_id, message);
+							}
+							else if (ListBan.regex.IsMatch(message))
+							{
+								await ListBan.execute(conversation_id, message);
+							}
+							else if (Unban.regex.IsMatch(message))
+							{
+								await Unban.execute(conversation_id, message);
 							}
 						}
 					}

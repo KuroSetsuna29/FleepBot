@@ -16,7 +16,7 @@ namespace FleepBot.Commands
 			string options = regex.Match(message).Groups[1].Value;
 			bool reroll = false;
 
-			if (options.ToLower() == "reroll")
+			if (options.ToLower() == "reroll" || options.ToLower() == "r")
 				reroll = true;
 
 			int sync_horizon = 0;
@@ -61,7 +61,7 @@ namespace FleepBot.Commands
 							i = rand.Next(0, members.Count - 1);
 						}
 
-						if (options.ToLower() == "+reroll")
+						if (options.ToLower() == "+reroll" || options.ToLower() == "+r")
 						{
 							string member1 = members[i];
 							members.RemoveAt(i);
