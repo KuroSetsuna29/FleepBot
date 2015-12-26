@@ -60,7 +60,7 @@ namespace FleepBot.Commands
 			string msg = String.Format("No item(s) found for '{0}'. Check spelling.", search);
 			if (stats.Item2.Count > 0)
 			{
-				msg = String.Format("Item Search Result for '{0}':\n:::\nItemSet: ItemName [Class] ATK/DEF/HP attribute:value\n", search)
+				msg = String.Format("Item Search Result for '{0}':\n:::\n[Class] ItemSet: ItemName ATK/DEF/HP - attribute:value\n", search)
 						+ String.Join("\n", stats.Item2.Where(x => x.c[1] == null || x.c[1].v == null || x.c[1].v.Value.ToString().ToUpper() != "SET").Select(x => String.Format("[{1}] {2}: {0} {3}/{4}/{5} -{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}{20}{21}",
 						(x.c[0] != null && x.c[0].v != null ? x.c[0].v.Value.ToString().Trim() : ""),
 						(x.c[1] != null && x.c[1].v != null ? x.c[1].v.Value.ToString().Trim().Substring(0, 3).ToUpper().Replace("WEA", "WEP") : ""),
