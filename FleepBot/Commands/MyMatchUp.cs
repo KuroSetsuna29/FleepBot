@@ -11,14 +11,14 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}mymatchup(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message, string account_id)
+		public static void execute(string convid, string message, string account_id)
 		{
 			//bool isIndividual = r.Match(message).Groups[1].Length > 0;
 			string opponent = regex.Match(message).Groups[1].Value;
 
 			/*if (String.IsNullOrWhiteSpace(guild))
             {
-                await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify opponent name. Example: {0}mymatchup _Opponent_", FleepBot.Program.COMMAND_PREFIX));
+                FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify opponent name. Example: {0}mymatchup _Opponent_", FleepBot.Program.COMMAND_PREFIX));
                 return;
             }*/
 
@@ -26,12 +26,12 @@ namespace FleepBot.Commands
 			dynamic memberinfo = new { };
 			//if (isIndividual)
 			//{
-			memberinfo = await FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
+			memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
 			contact_name = memberinfo.contact_name;
 
 			if (String.IsNullOrEmpty(contact_name))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please set your IGN using the following command, {0}ign _InGameName_", FleepBot.Program.COMMAND_PREFIX));
+				FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please set your IGN using the following command, {0}ign _InGameName_", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 			//}
@@ -41,7 +41,7 @@ namespace FleepBot.Commands
 
 			if (stats.result != "success")
 			{
-				await FleepBot.Program.SendErrorMessage(convid);
+				FleepBot.Program.SendErrorMessage(convid);
 				return;
 			}
 
@@ -65,7 +65,7 @@ namespace FleepBot.Commands
 					(x.Value.atk != null ? x.Value.atk.Value.ToString().PadRight(atkLen) : "".PadRight(atkLen)),
 					(x.Value.def != null ? x.Value.def.Value.ToString().PadRight(defLen) : "".PadRight(defLen)))));
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

@@ -11,11 +11,11 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}listconv(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			if (convid != FleepBot.Program.TESTCHAT)
 			{
-				await FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
+				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;
 			}
 
@@ -26,7 +26,7 @@ namespace FleepBot.Commands
 			dynamic conversations = new { };
 			do
 			{
-				dynamic list = await FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
+				dynamic list = FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
 				conversations = list.conversations;
 				sync_horizon = list.sync_horizon;
 
@@ -34,7 +34,7 @@ namespace FleepBot.Commands
 				{
 					if (conversation.conversation_id != null && ((string)conversation.topic).ToLower().Contains((filter ?? "").ToLower()))
 					{
-						await FleepBot.Program.SendMessage(convid, String.Format(":::\n{0}", conversation));
+						FleepBot.Program.SendMessage(convid, String.Format(":::\n{0}", conversation));
 
 						found = true;
 						break;
@@ -44,7 +44,7 @@ namespace FleepBot.Commands
 			} while (!found && !string.IsNullOrWhiteSpace((string)conversations));
 
 			if (!found)
-				await FleepBot.Program.SendErrorMessage(convid, "Error: could not find conversation.");
+				FleepBot.Program.SendErrorMessage(convid, "Error: could not find conversation.");
 		}
 	}
 }

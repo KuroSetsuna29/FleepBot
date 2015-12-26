@@ -11,7 +11,7 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}whoison(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			double hours = 1;
 			string input = regex.Match(message).Groups[1].Value;
@@ -19,7 +19,7 @@ namespace FleepBot.Commands
 			{
 				if (!double.TryParse(input, out hours))
 				{
-					await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify time in hours. Example: {0}whoison _Hours_", FleepBot.Program.COMMAND_PREFIX));
+					FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify time in hours. Example: {0}whoison _Hours_", FleepBot.Program.COMMAND_PREFIX));
 					return;
 				}
 			}
@@ -29,7 +29,7 @@ namespace FleepBot.Commands
 			dynamic conversations = new { };
 			do
 			{
-				dynamic list = await FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
+				dynamic list = FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
 				conversations = list.conversations;
 				sync_horizon = list.sync_horizon;
 
@@ -37,7 +37,7 @@ namespace FleepBot.Commands
 				{
 					if (conversation.conversation_id == convid)
 					{
-						dynamic membersinfo = await FleepBot.Program.ApiPost("api/contact/sync/list", new { contacts = conversation.members, ticket = FleepBot.Program.TICKET });
+						dynamic membersinfo = FleepBot.Program.ApiPost("api/contact/sync/list", new { contacts = conversation.members, ticket = FleepBot.Program.TICKET });
 						List<dynamic> members = new List<dynamic>();
 						foreach (dynamic contact in membersinfo.contacts)
 						{
@@ -64,7 +64,7 @@ namespace FleepBot.Commands
 
 						members.Sort((x, y) => DateTime.Compare(x.LastActivity, y.LastActivity));
 						string msg = ":::\nLast seen on Fleep...\n" + String.Join("\n", members.Select(x => x.msg));
-						await FleepBot.Program.SendMessage(convid, msg);
+						FleepBot.Program.SendMessage(convid, msg);
 
 						found = true;
 						break;

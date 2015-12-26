@@ -11,7 +11,7 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}teams(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			string search = regex.Match(message).Groups[1].Value;
 
@@ -33,7 +33,7 @@ namespace FleepBot.Commands
 				|| !stats.Item1.Any(c => c.id.Value == "E" && c.label.Value == "Hero4")
 				|| !stats.Item1.Any(c => c.id.Value == "F" && c.label.Value == "Hero5"))
 			{
-				await FleepBot.Program.SendErrorMessage(convid);
+				FleepBot.Program.SendErrorMessage(convid);
 				return;
 			}
 
@@ -49,7 +49,7 @@ namespace FleepBot.Commands
 						String.IsNullOrEmpty(x.c[5].v.Value) ? "" : ", " + (x.c[5].v.Value.ToLower().Contains(search.ToLower()) && !String.IsNullOrEmpty(search) ? "*" + x.c[5].v.Value + "*" : x.c[5].v.Value))));
 			}
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

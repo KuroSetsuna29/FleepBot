@@ -11,14 +11,14 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}awaken(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			string search = regex.Match(message).Groups[1].Value;
 			string hero = "";
 
 			if (String.IsNullOrWhiteSpace(search))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a hero. Example: {0}heroinfo _Hero_", FleepBot.Program.COMMAND_PREFIX));
+				FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a hero. Example: {0}heroinfo _Hero_", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 			
@@ -106,7 +106,7 @@ namespace FleepBot.Commands
 				}
 			}
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

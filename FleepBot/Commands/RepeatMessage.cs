@@ -49,7 +49,7 @@ namespace FleepBot.Commands
 
 		private void execute(object source, ElapsedEventArgs e)
 		{
-			FleepBot.Program.SendMessage(convid, message).Wait(-1);
+			FleepBot.Program.SendMessage(convid, message);
 		}
 	}
 }

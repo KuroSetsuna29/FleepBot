@@ -11,13 +11,13 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}gbpoints(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			string input = regex.Match(message).Groups[1].Value;
 
 			if (String.IsNullOrEmpty(input))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify _GuildName_ and _Points_.", FleepBot.Program.COMMAND_PREFIX));
+				FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify _GuildName_ and _Points_.", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 
@@ -85,7 +85,7 @@ namespace FleepBot.Commands
 					(String.IsNullOrEmpty(x.atk_wins) ? "".PadRight(atkLen) : String.Format("{0}({1}-{2})", (int.Parse(x.atk_wins ?? "0") + int.Parse(x.atk_losses ?? "0")).ToString().PadRight(atkTotalLen), x.atk_wins, x.atk_losses).PadRight(atkTotalLen + atkLen)),
 					(String.IsNullOrEmpty(x.def_wins) ? "".PadRight(defLen) : String.Format("{0}({1}-{2})", (int.Parse(x.def_wins ?? "0") + int.Parse(x.def_losses ?? "0")).ToString().PadRight(defTotalLen), x.def_wins, x.def_losses).PadRight(defTotalLen + defLen)))));
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

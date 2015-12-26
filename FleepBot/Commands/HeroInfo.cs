@@ -11,13 +11,13 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}heroinfo(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			string search = regex.Match(message).Groups[1].Value;
 
 			if (String.IsNullOrWhiteSpace(search))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a hero. Example: {0}heroinfo _Hero1_ [, _Hero2_ ][, _Hero3_ ]", FleepBot.Program.COMMAND_PREFIX));
+				FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a hero. Example: {0}heroinfo _Hero1_ [, _Hero2_ ][, _Hero3_ ]", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 
@@ -43,7 +43,7 @@ namespace FleepBot.Commands
 				|| !stats.Item1.Any(c => c.id.Value == "AG" && c.label.Value.Trim() == "Scenario")
 				|| !stats.Item1.Any(c => c.id.Value == "AH" && c.label.Value.Trim() == "Arena"))
 			{
-				await FleepBot.Program.SendErrorMessage(convid);
+				FleepBot.Program.SendErrorMessage(convid);
 				return;
 			}
 
@@ -91,7 +91,7 @@ namespace FleepBot.Commands
 						x.c[11].v.Value.ToString().Trim().PadRight(arenaLen))));
 			}
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

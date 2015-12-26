@@ -51,7 +51,7 @@ namespace FleepBot.Commands
 
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}ban(?:\\s+((?:(\\d+)d)?(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?))?(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			string delay = regex.Match(message).Groups[1].Value;
 			string days = regex.Match(message).Groups[2].Value;
@@ -67,23 +67,23 @@ namespace FleepBot.Commands
 
 			if (convid != FleepBot.Program.TESTCHAT)
 			{
-				await FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
+				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;
 			}
 
 			TimeSpan timespan = new TimeSpan(int.Parse(days), int.Parse(hours), int.Parse(minutes), int.Parse(seconds));
-			dynamic memberinfo = await FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = member, ticket = FleepBot.Program.TICKET });
+			dynamic memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = member, ticket = FleepBot.Program.TICKET });
 			string contact_name = memberinfo.contact_name;
 
 			if (String.IsNullOrEmpty(contact_name))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, "Error: Could not find user.");
+				FleepBot.Program.SendErrorMessage(convid, "Error: Could not find user.");
 				return;
 			}
 
 			BanTimer ban = new BanTimer(contact_name, member, timespan);
 
-			await FleepBot.Program.SendMessage(convid, String.Format("Successfully banned {0} for {1}.", contact_name, timespan.ToString("dd\\.hh\\:mm\\:ss")));
+			FleepBot.Program.SendMessage(convid, String.Format("Successfully banned {0} for {1}.", contact_name, timespan.ToString("dd\\.hh\\:mm\\:ss")));
 		}
 	}
 }

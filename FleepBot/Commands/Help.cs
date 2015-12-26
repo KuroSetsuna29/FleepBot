@@ -11,7 +11,7 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}help.*</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid)
+		public static void execute(string convid)
 		{
 			List<string> commands = new List<string>()
 			{
@@ -33,7 +33,7 @@ namespace FleepBot.Commands
 			};
 			
 			string msg = String.Join("\n", commands);
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

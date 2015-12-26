@@ -43,7 +43,7 @@ namespace FleepBot
 
 		static void Main(string[] args)
 		{
-			Login().Wait(-1);
+			Login();
 
 			if (String.IsNullOrEmpty(ACCOUNT_ID))
 				throw new Exception("Failed to login!");
@@ -54,7 +54,7 @@ namespace FleepBot
 			{
 				try
 				{
-					GetMessage().Wait(-1);
+					GetMessage();
 				}
 				catch (Exception e)
 				{
@@ -63,10 +63,11 @@ namespace FleepBot
 			}
 		}
 
-		private static async Task Login()
+		private static void Login()
 		{
 			Console.WriteLine(String.Format("Logging in as {0}...", USERNAME));
-			dynamic resp = await ApiPost("api/account/login", new { email = USERNAME, password = PASSWORD });
+
+            dynamic resp = ApiPost("api/account/login", new { email = USERNAME, password = PASSWORD });
 
 			TICKET = resp.ticket.Value;
 			TOKEN_ID = COOKIEJAR.GetCookies(URI)["TOKEN_ID"].Value;
@@ -78,9 +79,9 @@ namespace FleepBot
 			Console.WriteLine(String.Format("Listening for '{0}'", COMMAND_PREFIX));
 		}
 
-		private static async Task GetMessage()
+		private static void GetMessage()
 		{
-			dynamic resp = await ApiPost("api/account/poll", new { wait = true, event_horizon = EVENT_HORIZON, ticket = TICKET });
+            dynamic resp = ApiPost("api/account/poll", new { wait = true, event_horizon = EVENT_HORIZON, ticket = TICKET });
 
 			EVENT_HORIZON = resp.event_horizon;
 
@@ -102,137 +103,136 @@ namespace FleepBot
 							Ban.BanTimer bt = BANLIST.FirstOrDefault(x => x.member.ToLower() == account_id.ToLower());
                             if (bt != null)
 							{
-								SendMessage(conversation_id, String.Format("{0} has been banned for {1}", bt.name, bt.TimeLeftAsString)).Wait(-1);
+								SendMessage(conversation_id, String.Format("{0} has been banned for {1}", bt.name, bt.TimeLeftAsString));
 								return;
 							}
 
 							if (Help.regex.IsMatch(message))
 							{
-								await Help.execute(conversation_id);
+								new Thread(() => Help.execute(conversation_id)).Start();
 							}
 							else if (Echo.regex.IsMatch(message))
 							{
-								await Echo.execute(conversation_id, message);
+                                new Thread(() => Echo.execute(conversation_id, message)).Start();
 							}
 							else if (WhoIsOn.regex.IsMatch(message))
 							{
-								await WhoIsOn.execute(conversation_id, message);
+                                new Thread(() => WhoIsOn.execute(conversation_id, message)).Start();
 							}
 							else if (IGN.regex.IsMatch(message))
 							{
-								await IGN.execute(conversation_id, message, account_id);
+                                new Thread(() => IGN.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (AtkHistory.regex.IsMatch(message))
 							{
-								await AtkHistory.execute(conversation_id, message, account_id);
+                                new Thread(() => AtkHistory.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (Teams.regex.IsMatch(message))
 							{
-								await Teams.execute(conversation_id, message);
+                                new Thread(() => Teams.execute(conversation_id, message)).Start();
 							}
 							else if (HeroInfo.regex.IsMatch(message))
 							{
-								await HeroInfo.execute(conversation_id, message);
+                                new Thread(() => HeroInfo.execute(conversation_id, message)).Start();
 							}
 							else if (HeroInfo7.regex.IsMatch(message))
 							{
-								await HeroInfo7.execute(conversation_id, message);
+                                new Thread(() => HeroInfo7.execute(conversation_id, message)).Start();
 							}
 							else if (Awaken.regex.IsMatch(message))
 							{
-								await Awaken.execute(conversation_id, message);
+                                new Thread(() => Awaken.execute(conversation_id, message)).Start();
 							}
 							else if (MyMatchUp.regex.IsMatch(message))
 							{
-								await MyMatchUp.execute(conversation_id, message, account_id);
+                                new Thread(() => MyMatchUp.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (GBPoints.regex.IsMatch(message))
 							{
-								await GBPoints.execute(conversation_id, message);
+                                new Thread(() => GBPoints.execute(conversation_id, message)).Start();
 							}
 							else if (Honor.regex.IsMatch(message))
 							{
-								await Honor.execute(conversation_id, message, account_id);
+                                new Thread(() => Honor.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (ListConv.regex.IsMatch(message))
 							{
-								await ListConv.execute(conversation_id, message);
+                                new Thread(() => ListConv.execute(conversation_id, message)).Start();
 							}
 							else if (ListMembers.regex.IsMatch(message))
 							{
-								await ListMembers.execute(conversation_id, message);
+                                new Thread(() => ListMembers.execute(conversation_id, message)).Start();
 							}
 							else if (DefSetup.regex.IsMatch(message))
 							{
-								await DefSetup.execute(conversation_id, message);
+                                new Thread(() => DefSetup.execute(conversation_id, message)).Start();
 							}
 							else if (Remind.regex.IsMatch(message))
 							{
-								await Remind.execute(conversation_id, message, account_id);
+                                new Thread(() => Remind.execute(conversation_id, message, account_id)).Start();
 							}
 							else if (ListReminder.regex.IsMatch(message))
 							{
-								await ListReminder.execute(conversation_id, message);
+                                new Thread(() => ListReminder.execute(conversation_id, message)).Start();
 							}
 							else if (RemoveReminder.regex.IsMatch(message))
 							{
-								await RemoveReminder.execute(conversation_id, message);
+                                new Thread(() => RemoveReminder.execute(conversation_id, message)).Start();
 							}
 							else if (Ban.regex.IsMatch(message))
 							{
-								await Ban.execute(conversation_id, message);
+                                new Thread(() => Ban.execute(conversation_id, message)).Start();
 							}
 							else if (ListBan.regex.IsMatch(message))
 							{
-								await ListBan.execute(conversation_id, message);
+                                new Thread(() => ListBan.execute(conversation_id, message)).Start();
 							}
 							else if (Unban.regex.IsMatch(message))
 							{
-								await Unban.execute(conversation_id, message);
+                                new Thread(() => Unban.execute(conversation_id, message)).Start();
 							}
 						}
 					}
 					catch (Exception e)
 					{
 						Console.WriteLine(e);
-						SendErrorMessage(conversation_id).Wait(-1);
+						SendErrorMessage(conversation_id);
 					}
 				}
 			}
 		}
 
-		static async Task ActivityIndicator(Regex r, string convid, string message)
+		static void ActivityIndicator(Regex r, string convid, string message)
 		{
 			string input = r.Match(message).Groups[1].Value;
 
 			bool status = input == "on";
 
-			await SetActivityIndicator(convid, status);
+			SetActivityIndicator(convid, status);
 		}
 
-		public static async Task SetActivityIndicator(string convid, bool status)
+		public static void SetActivityIndicator(string convid, bool status)
 		{
 			Console.WriteLine("Set Activity: " + status);
-			dynamic resp = await ApiPost("api/conversation/show_activity/" + convid, new { is_writing = status ? true : false, ticket = TICKET });
+			ApiPost("api/conversation/show_activity/" + convid, new { is_writing = status ? true : false, ticket = TICKET });
 		}
 
-		public static async Task SendMessage(string convid, string message)
+		public static void SendMessage(string convid, string message)
 		{
 			if (message.StartsWith("/"))
 			{
 				Console.WriteLine("No slash commands allowed: " + message);
-				await SendErrorMessage(convid, "No slash commands allowed.");
-				return;
+				SendErrorMessage(convid, "No slash commands allowed.");
 			}
 
             Console.WriteLine("Sending: " + message);
-			dynamic resp = await ApiPost("api/message/send/" + convid, new { message = message, ticket = TICKET });
+			dynamic resp = ApiPost("api/message/send/" + convid, new { message = message, ticket = TICKET });
 		}
 
-		public static async Task SendErrorMessage(string convid, string message = "Error: Something unexpected happened.")
+		public static void SendErrorMessage(string convid, string message = "Error: Something unexpected happened.")
 		{
 			Console.WriteLine("Sending: " + message);
-			dynamic resp = await ApiPost("api/message/send/" + convid, new { message = message, ticket = TICKET });
+			ApiPost("api/message/send/" + convid, new { message = message, ticket = TICKET });
 		}
 
 		public static Tuple<List<dynamic>, List<dynamic>> GetGoogleSheet(string convid, string docid, string sheetid, string query, int? headers = null, string range = null)
@@ -246,14 +246,14 @@ namespace FleepBot
 			Regex rgx = new Regex("^.+?(\\{.*\\}).*$", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 			if (!rgx.IsMatch(resp))
 			{
-				SendErrorMessage(convid).Wait(-1);
+				SendErrorMessage(convid);
 				return null;
 			}
 
 			dynamic obj = JsonConvert.DeserializeObject(rgx.Match(resp).Groups[1].Value);
 			if (obj.status == "error")
 			{
-				SendErrorMessage(convid).Wait(-1);
+				SendErrorMessage(convid);
 				return null;
 			}
 
@@ -296,7 +296,7 @@ namespace FleepBot
 			}
 		}
 
-		public static async Task<dynamic> ApiPost(string api, object data)
+		public static dynamic ApiPost(string api, object data)
 		{
 			dynamic ret = new { };
 
@@ -311,10 +311,16 @@ namespace FleepBot
 				client.DefaultRequestHeaders.Accept.Clear();
 				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-				HttpResponseMessage response = await client.PostAsJsonAsync(api, data);
+                Task<HttpResponseMessage> t = client.PostAsJsonAsync(api, data);
+                t.Wait(-1);
+
+                HttpResponseMessage response = t.Result;
 				if (response.IsSuccessStatusCode)
-				{
-					dynamic resp = await response.Content.ReadAsAsync<dynamic>();
+                {
+                    Task<dynamic> t2 = response.Content.ReadAsAsync<dynamic>();
+                    t2.Wait(-1);
+
+                    dynamic resp = t2.Result;
 					if (DEBUG)
 						Console.WriteLine(resp);
 

@@ -11,13 +11,13 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}defsetup(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			string search = regex.Match(message).Groups[1].Value;
 
 			if (String.IsNullOrWhiteSpace(search))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a member. Example: {0}defsetup _Member1_ [, _Member2_ ][, _Member3_ ]", FleepBot.Program.COMMAND_PREFIX));
+				FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a member. Example: {0}defsetup _Member1_ [, _Member2_ ][, _Member3_ ]", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 
@@ -47,7 +47,7 @@ namespace FleepBot.Commands
 				|| !stats.Item1.Any(c => c.id.Value == "Y" && c.label.Value.Trim() == "Rating")
 				|| !stats.Item1.Any(c => c.id.Value == "Z" && c.label.Value.Trim() == "Rank"))
 			{
-				await FleepBot.Program.SendErrorMessage(convid);
+				FleepBot.Program.SendErrorMessage(convid);
 				return;
 			}
 
@@ -108,7 +108,7 @@ namespace FleepBot.Commands
 						(x.c[22] != null ? x.c[22].v.Value.ToString().Trim() : "").PadRight(buffLen))));
 			}
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

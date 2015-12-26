@@ -11,11 +11,11 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}listreminder(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message)
+		public static void execute(string convid, string message)
 		{
 			if (convid != FleepBot.Program.TESTCHAT)
 			{
-				await FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
+				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;
 			}
 
@@ -35,7 +35,7 @@ namespace FleepBot.Commands
 						(x.TimeLeftAsString).PadRight(timeleftLen),
 						(x.Message).PadRight(messageLen))));
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

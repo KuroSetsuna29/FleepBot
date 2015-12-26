@@ -50,13 +50,13 @@ namespace FleepBot.Commands
 			{
 				timer.Enabled = false;
 				FleepBot.Program.REMINDERS.Remove(this);
-				FleepBot.Program.SendMessage(ConvID, String.Format("From {0}:\n:::\n{1}", User, Message)).Wait(-1);
+				FleepBot.Program.SendMessage(ConvID, String.Format("From {0}:\n:::\n{1}", User, Message));
 			}
 		}
 
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}remind(?:\\s+((?:(\\d+)d)?(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?))?(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message, string account_id)
+		public static void execute(string convid, string message, string account_id)
 		{
 			string delay = regex.Match(message).Groups[1].Value;
 			string days = regex.Match(message).Groups[2].Value ?? "0";
@@ -72,17 +72,17 @@ namespace FleepBot.Commands
 
 			if (String.IsNullOrWhiteSpace(delay) || String.IsNullOrWhiteSpace(msg))
 			{
-				await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a valid delay. Example: {0}remind 1h30m This message will show after 1 hour 30 minutes", FleepBot.Program.COMMAND_PREFIX));
+				FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify a valid delay. Example: {0}remind 1h30m This message will show after 1 hour 30 minutes", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 
 			TimeSpan timespan = new TimeSpan(int.Parse(days), int.Parse(hours), int.Parse(minutes), int.Parse(seconds));
-			dynamic memberinfo = await FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
+			dynamic memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
 			string contact_name = memberinfo.contact_name;
 
 			Reminder r = new Reminder(contact_name, timespan, convid, msg);
 
-			await FleepBot.Program.SendMessage(convid, String.Format("Set reminder for {0}", timespan.ToString("dd\\.hh\\:mm\\:ss")));
+			FleepBot.Program.SendMessage(convid, String.Format("Set reminder for {0}", timespan.ToString("dd\\.hh\\:mm\\:ss")));
         }
 	}
 }

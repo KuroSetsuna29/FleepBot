@@ -11,20 +11,20 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}(my)?atkhistory(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message, string account_id)
+		public static void execute(string convid, string message, string account_id)
 		{
 			bool isIndividual = regex.Match(message).Groups[1].Length > 0;
 			string guild = regex.Match(message).Groups[2].Value;
 
 			if (isIndividual)
 			{
-				await Program.SendErrorMessage(convid, String.Format("Please use {0}mymatchup [ _GuildName_ | _Opponent_ ] instead.", FleepBot.Program.COMMAND_PREFIX));
+				Program.SendErrorMessage(convid, String.Format("Please use {0}mymatchup [ _GuildName_ | _Opponent_ ] instead.", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 
 			if (String.IsNullOrWhiteSpace(guild))
 			{
-				await Program.SendErrorMessage(convid, String.Format("Error: Please specify guild name. Example: {0}atkhistory _GuildName_", FleepBot.Program.COMMAND_PREFIX));
+				Program.SendErrorMessage(convid, String.Format("Error: Please specify guild name. Example: {0}atkhistory _GuildName_", FleepBot.Program.COMMAND_PREFIX));
 				return;
 			}
 
@@ -32,12 +32,12 @@ namespace FleepBot.Commands
 			dynamic memberinfo = new { };
 			if (isIndividual)
 			{
-				memberinfo = await FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
+				memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
 				contact_name = memberinfo.contact_name;
 
 				if (String.IsNullOrEmpty(contact_name))
 				{
-					await FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please set your IGN using the following command, {0}ign _InGameName_", FleepBot.Program.COMMAND_PREFIX));
+					FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please set your IGN using the following command, {0}ign _InGameName_", FleepBot.Program.COMMAND_PREFIX));
 					return;
 				}
 			}
@@ -56,7 +56,7 @@ namespace FleepBot.Commands
 				|| !stats.Item1.Any(c => c.id.Value == "D" && c.label.Value == "Guild")
 				|| !stats.Item1.Any(c => c.id.Value == "E" && c.label.Value == "Result"))
 			{
-				await FleepBot.Program.SendErrorMessage(convid);
+				FleepBot.Program.SendErrorMessage(convid);
 				return;
 			}
 
@@ -66,7 +66,7 @@ namespace FleepBot.Commands
 			string msg = String.Format(":::\n{0}{1}{2}\n", "Member".PadRight(memberLen), "Opponent".PadRight(opponentLen), "Result")
 				+ String.Join("\n", stats.Item2.Select(x => String.Format("{0}{1}{2}", x.c[1].v.Value.PadRight(memberLen), x.c[2].v.Value.PadRight(opponentLen), x.c[4].v.Value)));
 
-			await FleepBot.Program.SendMessage(convid, msg);
+			FleepBot.Program.SendMessage(convid, msg);
 		}
 	}
 }

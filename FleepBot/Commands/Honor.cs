@@ -11,7 +11,7 @@ namespace FleepBot.Commands
 	{
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}honou?r(?:\\s+(.*))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static async Task execute(string convid, string message, string account_id)
+		public static void execute(string convid, string message, string account_id)
 		{
 			string options = regex.Match(message).Groups[1].Value;
 			bool reroll = false;
@@ -24,7 +24,7 @@ namespace FleepBot.Commands
 			dynamic conversations = new { };
 			do
 			{
-				dynamic list = await FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
+				dynamic list = FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
 				conversations = list.conversations;
 				sync_horizon = list.sync_horizon;
 
@@ -32,7 +32,7 @@ namespace FleepBot.Commands
 				{
 					if (conversation.conversation_id == FleepBot.Program.SOULCHAT)
 					{
-						dynamic membersinfo = await FleepBot.Program.ApiPost("api/contact/sync/list", new { contacts = conversation.members, ticket = FleepBot.Program.TICKET });
+						dynamic membersinfo = FleepBot.Program.ApiPost("api/contact/sync/list", new { contacts = conversation.members, ticket = FleepBot.Program.TICKET });
 						List<string> members = new List<string>();
 						string name = "Your";
 						foreach (dynamic contact in membersinfo.contacts)
@@ -68,9 +68,9 @@ namespace FleepBot.Commands
 							i = rand.Next(0, members.Count - 1);
 							string member2 = members[i];
 
-							await FleepBot.Program.SendMessage(convid, String.Format("{0} honor of the day is *{1}* and *{2}*", name ?? "Your", member1, member2));
+							FleepBot.Program.SendMessage(convid, String.Format("{0} honor of the day is *{1}* and *{2}*", name ?? "Your", member1, member2));
 						} else {
-							await FleepBot.Program.SendMessage(convid, String.Format("{0} honor of the day is *{1}*", name ?? "Your", members[i]));
+							FleepBot.Program.SendMessage(convid, String.Format("{0} honor of the day is *{1}*", name ?? "Your", members[i]));
 						}
 
 						found = true;
