@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FleepBot.Commands
 {
-    class MyMatchUp
+    class MyMatchUp : BaseCommand
 	{
+		public override string command_name { get { return "MyMatchUp"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}mymatchup(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message, string account_id)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			//bool isIndividual = r.Match(message).Groups[1].Length > 0;
 			string opponent = regex.Match(message).Groups[1].Value;

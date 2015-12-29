@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FleepBot.Commands
 {
-    class Help
+    class Help : BaseCommand
 	{
+		public override string command_name { get { return "Help"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}help.*</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			List<string> commands = new List<string>()
 			{

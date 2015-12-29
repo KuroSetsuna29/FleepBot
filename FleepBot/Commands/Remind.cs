@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace FleepBot.Commands
 {
-    class Remind
+    class Remind : BaseCommand
 	{
 		public class Reminder
 		{
@@ -46,17 +46,23 @@ namespace FleepBot.Commands
 				get { return TimeLeft.ToString("dd\\.hh\\:mm\\:ss"); }
 			}
 
-			private void execute(object source, ElapsedEventArgs e)
+			public void Remove()
 			{
 				timer.Enabled = false;
 				FleepBot.Program.REMINDERS.Remove(this);
+			}
+
+			private void execute(object source, ElapsedEventArgs e)
+			{
+				Remove();
 				FleepBot.Program.SendMessage(ConvID, String.Format("From {0}:\n:::\n{1}", User, Message));
 			}
 		}
 
+		public override string command_name { get { return "Remind"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}remind(?:\\s+((?:(\\d+)d)?(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?))?(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message, string account_id)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string delay = regex.Match(message).Groups[1].Value;
 			string days = regex.Match(message).Groups[2].Value ?? "0";

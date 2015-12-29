@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace FleepBot.Commands
 {
-    class Ban
+    class Ban : BaseCommand
 	{
 		public class BanTimer
 		{
@@ -49,9 +49,10 @@ namespace FleepBot.Commands
 			}
 		}
 
+		public override string command_name { get { return "Ban"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}ban(?:\\s+((?:(\\d+)d)?(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?))?(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string delay = regex.Match(message).Groups[1].Value;
 			string days = regex.Match(message).Groups[2].Value;

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FleepBot.Commands
 {
-    class GBPoints
+    class GBPoints : BaseCommand
 	{
+		public override string command_name { get { return "GBPoints"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}gbpoints(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string input = regex.Match(message).Groups[1].Value;
 

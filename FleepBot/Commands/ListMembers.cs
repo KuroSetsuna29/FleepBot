@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FleepBot.Commands
 {
-    class ListMembers
+    class ListMembers : BaseCommand
 	{
+		public override string command_name { get { return "ListMembers"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}listmembers(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			if (convid != FleepBot.Program.TESTCHAT)
 			{

@@ -8,11 +8,12 @@ using System.Timers;
 
 namespace FleepBot.Commands
 {
-    class RemoveReminder
+    class RemoveReminder : BaseCommand
 	{
+		public override string command_name { get { return "RemoveReminder"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}removereminder(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string id = regex.Match(message).Groups[1].Value;
 
@@ -22,7 +23,11 @@ namespace FleepBot.Commands
 				return;
 			}
 			
-			FleepBot.Program.REMINDERS.RemoveAll(x => x.ID.ToLower() == id.ToLower());
+			IEnumerable<Remind.Reminder> reminders = FleepBot.Program.REMINDERS.Where(x => x.ID.ToLower() == id.ToLower());
+			foreach (Remind.Reminder reminder in reminders)
+			{
+				reminder.Remove();
+			}
 
 			FleepBot.Program.SendMessage(convid, String.Format("Successfully removed {0}.", id));
 		}

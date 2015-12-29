@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FleepBot.Commands
 {
-	class Items
+	class Items : BaseCommand
 	{
+		public override string command_name { get { return "Items"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}items(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string search = regex.Match(message).Groups[1].Value;
 

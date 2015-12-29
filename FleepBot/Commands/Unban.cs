@@ -8,11 +8,12 @@ using System.Timers;
 
 namespace FleepBot.Commands
 {
-    class Unban
+    class Unban : BaseCommand
 	{
+		public override string command_name { get { return "Unban"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}unban(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string member = regex.Match(message).Groups[1].Value;
 

@@ -22,6 +22,7 @@ namespace FleepBot
 		public static DateTime START = DateTime.Now;
 		public static string COMMAND_PREFIX = ConfigurationManager.AppSettings.Get("COMMAND_PREFIX") ?? "!";
 		public static string ADMIN_COMMAND_PREFIX = ConfigurationManager.AppSettings.Get("ADMIN_COMMAND_PREFIX") ?? "$";
+		public static bool AWS_ENABLED = bool.Parse(ConfigurationManager.AppSettings.Get("AWS_ENABLED"));
 
 		public static CookieContainer COOKIEJAR = new CookieContainer();
 		public static Uri URI = new Uri("https://fleep.io/");
@@ -59,6 +60,26 @@ namespace FleepBot
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
+
+					if (AWS_ENABLED)
+					{
+						Amazon.DynamoDBv2.AmazonDynamoDBClient dbclient = new Amazon.DynamoDBv2.AmazonDynamoDBClient();
+						Amazon.DynamoDBv2.Model.PutItemRequest item = new Amazon.DynamoDBv2.Model.PutItemRequest
+						{
+							TableName = "FleepBot_SoulSeeker_ErrorLog",
+							Item = new Dictionary<string, Amazon.DynamoDBv2.Model.AttributeValue>
+							{
+								{ "Date", new Amazon.DynamoDBv2.Model.AttributeValue { S = DateTime.Now.ToString("u") } },
+								{ "ID", new Amazon.DynamoDBv2.Model.AttributeValue { S = Guid.NewGuid().ToString("N") } },
+								{ "Message", new Amazon.DynamoDBv2.Model.AttributeValue { S = e.Message } },
+								{ "StackTrace", new Amazon.DynamoDBv2.Model.AttributeValue { S = e.StackTrace } },
+								{ "Data", new Amazon.DynamoDBv2.Model.AttributeValue { S =  JsonConvert.SerializeObject(e.Data) } },
+								{ "Object", new Amazon.DynamoDBv2.Model.AttributeValue { S =  JsonConvert.SerializeObject(e) } }
+							}
+						};
+
+						dbclient.PutItem(item);
+					}
 				}
 			}
 		}
@@ -109,91 +130,113 @@ namespace FleepBot
 
 							if (Help.regex.IsMatch(message))
 							{
-								new Thread(() => Help.execute(conversation_id)).Start();
+								Help command = new Help();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Echo.regex.IsMatch(message))
 							{
-								new Thread(() => Echo.execute(conversation_id, message)).Start();
+								Echo command = new Echo();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (WhoIsOn.regex.IsMatch(message))
 							{
-								new Thread(() => WhoIsOn.execute(conversation_id, message)).Start();
+								WhoIsOn command = new WhoIsOn();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (IGN.regex.IsMatch(message))
 							{
-								new Thread(() => IGN.execute(conversation_id, message, account_id)).Start();
+								IGN command = new IGN();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (AtkHistory.regex.IsMatch(message))
 							{
-								new Thread(() => AtkHistory.execute(conversation_id, message, account_id)).Start();
+								AtkHistory command = new AtkHistory();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Teams.regex.IsMatch(message))
 							{
-								new Thread(() => Teams.execute(conversation_id, message)).Start();
+								Teams command = new Teams();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (HeroInfo.regex.IsMatch(message))
 							{
-								new Thread(() => HeroInfo.execute(conversation_id, message)).Start();
+								HeroInfo command = new HeroInfo();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (HeroInfo7.regex.IsMatch(message))
 							{
-								new Thread(() => HeroInfo7.execute(conversation_id, message)).Start();
+								HeroInfo7 command = new HeroInfo7();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Awaken.regex.IsMatch(message))
 							{
-								new Thread(() => Awaken.execute(conversation_id, message)).Start();
+								Awaken command = new Awaken();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (MyMatchUp.regex.IsMatch(message))
 							{
-								new Thread(() => MyMatchUp.execute(conversation_id, message, account_id)).Start();
+								MyMatchUp command = new MyMatchUp();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (GBPoints.regex.IsMatch(message))
 							{
-								new Thread(() => GBPoints.execute(conversation_id, message)).Start();
+								GBPoints command = new GBPoints();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Honor.regex.IsMatch(message))
 							{
-								new Thread(() => Honor.execute(conversation_id, message, account_id)).Start();
+								Honor command = new Honor();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (ListConv.regex.IsMatch(message))
 							{
-								new Thread(() => ListConv.execute(conversation_id, message)).Start();
+								ListConv command = new ListConv();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (ListMembers.regex.IsMatch(message))
 							{
-								new Thread(() => ListMembers.execute(conversation_id, message)).Start();
+								ListMembers command = new ListMembers();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (DefSetup.regex.IsMatch(message))
 							{
-								new Thread(() => DefSetup.execute(conversation_id, message)).Start();
+								DefSetup command = new DefSetup();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Remind.regex.IsMatch(message))
 							{
-								new Thread(() => Remind.execute(conversation_id, message, account_id)).Start();
+								Remind command = new Remind();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (ListReminder.regex.IsMatch(message))
 							{
-								new Thread(() => ListReminder.execute(conversation_id, message)).Start();
+								ListReminder command = new ListReminder();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (RemoveReminder.regex.IsMatch(message))
 							{
-								new Thread(() => RemoveReminder.execute(conversation_id, message)).Start();
+								RemoveReminder command = new RemoveReminder();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Ban.regex.IsMatch(message))
 							{
-								new Thread(() => Ban.execute(conversation_id, message)).Start();
+								Ban command = new Ban();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (ListBan.regex.IsMatch(message))
 							{
-								new Thread(() => ListBan.execute(conversation_id, message)).Start();
+								ListBan command = new ListBan();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Unban.regex.IsMatch(message))
 							{
-								new Thread(() => Unban.execute(conversation_id, message)).Start();
+								Unban command = new Unban();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (Items.regex.IsMatch(message))
 							{
-								new Thread(() => Items.execute(conversation_id, message)).Start();
+								Items command = new Items();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 						}
 					}

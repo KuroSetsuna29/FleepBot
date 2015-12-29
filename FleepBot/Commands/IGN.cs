@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FleepBot.Commands
 {
-    class IGN
+    class IGN : BaseCommand
 	{
+		public override string command_name { get { return "IGN"; } }
 		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}ign(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
-		public static void execute(string convid, string message, string account_id)
+		protected override void execute(string convid, string message, string account_id)
 		{
 			string ign = regex.Match(message).Groups[1].Value;
 			bool isGet = String.IsNullOrEmpty(ign);
