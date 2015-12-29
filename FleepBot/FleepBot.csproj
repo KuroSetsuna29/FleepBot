@@ -95,9 +95,6 @@
     <Content Include="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
     </Content>
-    <EmbeddedResource Include="credentials">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
