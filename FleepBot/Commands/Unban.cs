@@ -22,9 +22,8 @@ namespace FleepBot.Commands
 				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;
 			}
-			
-			dynamic memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = member, ticket = FleepBot.Program.TICKET });
-			string contact_name = memberinfo.contact_name;
+
+			string contact_name = FleepBot.Program.GetUserName(account_id);
 
 			if (String.IsNullOrEmpty(contact_name))
 			{

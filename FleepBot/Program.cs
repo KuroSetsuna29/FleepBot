@@ -35,9 +35,15 @@ namespace FleepBot
 
 		public static string TESTCHAT = "60366328-1f6e-4674-a520-036bf92adb1e";
 		public static string SOULCHAT = "d43d3128-3db9-4147-b46c-f8efd11573d4";
+		public static string JAMESCHAT = "d43d3128-3db9-4147-b46c-f8efd11573d4";
 		public static string JAMES = "37744223-d15a-4c64-a03f-73825b6a7971";
 		public static string JENNY = "71c8924b-db05-4216-bc2b-5fa975c34558";
 		public static string JACK = "1e0ca824-b45b-41b3-b76b-c2c663775e5f";
+		public static string JON = "9a0acc6b-081a-4e44-83be-e08b7e5ed338";
+		public static string ALEXA = "ff370d1c-49c8-4374-b18f-4b26dc7a7c56";
+
+		public static string HANGOUTS_JAMES = "Ugz_UcDODOqHt5O-s9p4AaABAagBrI-CBQ";
+		public static string HANGOUTS_SOULCHAT = "UgyyFKOFE69CUfgfuIJ4AaABAQ";
 
 		public static List<Ban.BanTimer> BANLIST = new List<Ban.BanTimer>();
 		public static List<Remind.Reminder> REMINDERS = new List<Remind.Reminder>();
@@ -59,7 +65,7 @@ namespace FleepBot
 				}
 				catch (Exception e)
 				{
-					Console.WriteLine(e);
+					Log(e);
 
 					if (AWS_ENABLED)
 					{
@@ -84,9 +90,24 @@ namespace FleepBot
 			}
 		}
 
+		private static void Log(object obj)
+		{
+			string msg = String.Format("[{0}] {1}", DateTime.Now, obj);
+			Console.WriteLine(msg);
+
+			string logdir = ConfigurationManager.AppSettings.Get("LOGS");
+			if (!String.IsNullOrWhiteSpace(logdir))
+			{
+				string logname = String.Format("FleepBot_{0}.log", DateTime.Now.ToString("yyyy-MM-dd"));
+				string logfile = Path.Combine(logdir, logname);
+
+				File.AppendAllText(logfile, msg + "\r\n");
+			}
+		}
+
 		private static void Login()
 		{
-			Console.WriteLine(String.Format("Logging in as {0}...", USERNAME));
+			Log(String.Format("Logging in as {0}...", USERNAME));
 
             dynamic resp = ApiPost("api/account/login", new { email = USERNAME, password = PASSWORD });
 
@@ -94,10 +115,10 @@ namespace FleepBot
 			TOKEN_ID = COOKIEJAR.GetCookies(URI)["TOKEN_ID"].Value;
 			ACCOUNT_ID = resp.account_id.Value;
 
-			Console.WriteLine("TICKET: " + TICKET);
-			Console.WriteLine("TOKEN_ID: " + TOKEN_ID);
-			Console.WriteLine("ACCOUNT_ID: " + ACCOUNT_ID);
-			Console.WriteLine(String.Format("Listening for '{0}'", COMMAND_PREFIX));
+			Log("TICKET: " + TICKET);
+			Log("TOKEN_ID: " + TOKEN_ID);
+			Log("ACCOUNT_ID: " + ACCOUNT_ID);
+			Log(String.Format("Listening for '{0}'", COMMAND_PREFIX));
 		}
 
 		private static void GetMessage()
@@ -116,10 +137,10 @@ namespace FleepBot
 
 					try
 					{
-						DateTime time = Utils.parseUnixTimestamp(stream.posted_time.Value);
+						DateTime time = Utils.parseUnixTimestamp(stream.edited_time != null ? stream.edited_time.Value : stream.posted_time.Value);
 						if (time >= START && account_id != ACCOUNT_ID)
 						{
-							Console.WriteLine(String.Format("[{0}] {1}", time, message));
+							Log(String.Format("[{0}] {1}", time, message));
 
 							Ban.BanTimer bt = BANLIST.FirstOrDefault(x => x.member.ToLower() == account_id.ToLower());
 							if (bt != null)
@@ -238,6 +259,36 @@ namespace FleepBot
 								Items command = new Items();
 								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
+							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
+								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JAMES)), RegexOptions.IgnoreCase).IsMatch(message))
+							{
+								new Thread(() =>
+								{
+									Regex mention = new Regex("<mention[^<>]*>(.*?)</mention>", RegexOptions.IgnoreCase);
+									Regex remove = new Regex("(</?msg>|</?p>)", RegexOptions.IgnoreCase);
+									string conv_name = FleepBot.Program.GetConvName(conversation_id);
+									string contact_name = FleepBot.Program.GetUserName(account_id);
+
+									string msg = String.Format("<b>{0}<br>At {1}<br>{2}</b>:<br>{3}", conv_name, time, contact_name, remove.Replace(mention.Replace(message, "$1"), ""));
+									SendHangouts(HANGOUTS_JAMES, msg);
+								}).Start();
+							}
+							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+							   && !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
+							   && new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JACK, JON, ALEXA)), RegexOptions.IgnoreCase).IsMatch(message))
+							{
+								new Thread(() =>
+								{
+									Regex mention = new Regex("<mention[^<>]*>(.*?)</mention>", RegexOptions.IgnoreCase);
+									Regex remove = new Regex("(</?msg>|</?p>)", RegexOptions.IgnoreCase);
+									string conv_name = FleepBot.Program.GetConvName(conversation_id);
+									string contact_name = FleepBot.Program.GetUserName(account_id);
+
+									string msg = String.Format("<b>{0}<br>At {1}<br>{2}</b>:<br>{3}", conv_name, time, contact_name, remove.Replace(mention.Replace(message, "$1"), ""));
+									SendHangouts(HANGOUTS_SOULCHAT, msg);
+								}).Start();
+							}
 						}
 					}
 					catch (Exception e)
@@ -247,6 +298,58 @@ namespace FleepBot
 					}
 				}
 			}
+		}
+
+		public static void SendHangouts(string chatid, string message)
+		{
+			Log("Sending Hangout (" + chatid + "): " + message);
+			System.Diagnostics.ProcessStartInfo start = new System.Diagnostics.ProcessStartInfo();
+			start.FileName = ConfigurationManager.AppSettings.Get("PYTHON3");
+			start.Arguments = string.Format(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"), chatid, message);
+			start.UseShellExecute = false;
+			start.RedirectStandardOutput = true;
+			using (System.Diagnostics.Process process = System.Diagnostics.Process.Start(start))
+			{
+				using (StreamReader reader = process.StandardOutput)
+				{
+					string result = reader.ReadToEnd();
+					Console.Write(result);
+				}
+			}
+		}
+
+		public static string GetConvName(string conv_id)
+		{
+			long? sync_horizon = 0;
+			bool found = false;
+			string name = null;
+			dynamic conversations = new { };
+			do
+			{
+				dynamic list = FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
+				conversations = list.conversations;
+				sync_horizon = list.sync_horizon;
+
+				foreach (dynamic conversation in conversations)
+				{
+					if (conversation.conversation_id != null && conversation.conversation_id.Value.ToLower() == conv_id.ToLower())
+					{
+						name = conversation.topic;
+
+						found = true;
+						break;
+					}
+				}
+
+			} while (!found && conversations != null && conversations.HasValues);
+
+			return name;
+		}
+
+		public static string GetUserName(string account_id)
+		{
+			dynamic memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = TICKET });
+			return memberinfo.contact_name ?? memberinfo.display_name;
 		}
 
 		static void ActivityIndicator(Regex r, string convid, string message)
@@ -260,7 +363,7 @@ namespace FleepBot
 
 		public static void SetActivityIndicator(string convid, bool status)
 		{
-			Console.WriteLine("Set Activity: " + status);
+			Log("Set Activity: " + status);
 			ApiPost("api/conversation/show_activity/" + convid, new { is_writing = status ? true : false, ticket = TICKET });
 		}
 
@@ -268,17 +371,17 @@ namespace FleepBot
 		{
 			if (message.StartsWith("/"))
 			{
-				Console.WriteLine("No slash commands allowed: " + message);
+				Log("No slash commands allowed: " + message);
 				SendErrorMessage(convid, "No slash commands allowed.");
 			}
 
-            Console.WriteLine("Sending: " + message);
+			Log("Sending: " + message);
 			dynamic resp = ApiPost("api/message/send/" + convid, new { message = message, ticket = TICKET });
 		}
 
 		public static void SendErrorMessage(string convid, string message = "Error: Something unexpected happened.")
 		{
-			Console.WriteLine("Sending: " + message);
+			Log("Sending: " + message);
 			ApiPost("api/message/send/" + convid, new { message = message, ticket = TICKET });
 		}
 
@@ -318,7 +421,7 @@ namespace FleepBot
 				{
 					string resp = reader.ReadToEnd();
 					if (DEBUG)
-						Console.WriteLine(resp);
+						Log(resp);
 
 					return resp;
 				}
@@ -336,7 +439,7 @@ namespace FleepBot
 				{
 					string resp = reader.ReadToEnd();
 					if (DEBUG)
-						Console.WriteLine(resp);
+						Log(resp);
 
 					return JsonConvert.DeserializeObject(resp);
 				}
@@ -369,13 +472,13 @@ namespace FleepBot
 
                     dynamic resp = t2.Result;
 					if (DEBUG)
-						Console.WriteLine(resp);
+						Log(resp);
 
 					ret = resp;
 				}
 				else
 				{
-					Console.WriteLine("Error: Response Status Code - " + response.StatusCode);
+					Log("Error: Response Status Code - " + response.StatusCode);
 				}
 			}
 

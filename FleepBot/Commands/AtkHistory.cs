@@ -30,11 +30,9 @@ namespace FleepBot.Commands
 			}
 
 			string contact_name = "";
-			dynamic memberinfo = new { };
 			if (isIndividual)
 			{
-				memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
-				contact_name = memberinfo.contact_name;
+				contact_name = FleepBot.Program.GetUserName(account_id);
 
 				if (String.IsNullOrEmpty(contact_name))
 				{

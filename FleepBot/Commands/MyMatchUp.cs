@@ -22,13 +22,10 @@ namespace FleepBot.Commands
                 FleepBot.Program.SendErrorMessage(convid, String.Format("Error: Please specify opponent name. Example: {0}mymatchup _Opponent_", FleepBot.Program.COMMAND_PREFIX));
                 return;
             }*/
-
-			string contact_name = "";
-			dynamic memberinfo = new { };
+			
 			//if (isIndividual)
 			//{
-			memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
-			contact_name = memberinfo.contact_name;
+			string contact_name = FleepBot.Program.GetUserName(account_id);
 
 			if (String.IsNullOrEmpty(contact_name))
 			{

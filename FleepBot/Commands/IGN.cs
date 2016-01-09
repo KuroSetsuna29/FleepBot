@@ -19,8 +19,7 @@ namespace FleepBot.Commands
 
 			if (isGet)
 			{
-				dynamic memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = account_id, ticket = FleepBot.Program.TICKET });
-				string contact_name = memberinfo.contact_name;
+				string contact_name = FleepBot.Program.GetUserName(account_id);
 
 				FleepBot.Program.SendMessage(convid, String.Format("Your IGN is {0}", String.IsNullOrEmpty(contact_name) ? String.Format("not set. Please set using the following command, {0}ign _InGameName_", FleepBot.Program.COMMAND_PREFIX) : "*" + contact_name + "*"));
 			}

@@ -39,7 +39,7 @@ namespace FleepBot.Commands
 					filter_member = filter.Split(new char[] { ' ' }, 2)[1];
 			}
 
-			int sync_horizon = 0;
+			long? sync_horizon = 0;
 			bool found = false;
 			dynamic conversations = new { };
 			do
@@ -72,7 +72,7 @@ namespace FleepBot.Commands
 					}
 				}
 
-			} while (!found && !string.IsNullOrWhiteSpace((string)conversations));
+			} while (!found && conversations != null && conversations.HasValues);
 
 			if (!found)
 				FleepBot.Program.SendErrorMessage(convid, "Error: could not find conversation.");

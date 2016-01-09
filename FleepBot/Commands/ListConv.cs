@@ -22,14 +22,14 @@ namespace FleepBot.Commands
 
 			string filter = regex.Match(message).Groups[1].Value;
 
-			int sync_horizon = 0;
+			long? sync_horizon = 0;
 			bool found = false;
 			dynamic conversations = new { };
 			do
 			{
 				dynamic list = FleepBot.Program.ApiPost("api/conversation/list", new { sync_horizon = sync_horizon, ticket = FleepBot.Program.TICKET });
 				conversations = list.conversations;
-				sync_horizon = list.sync_horizon;
+				sync_horizon = list.sync_horizon.Value;
 
 				foreach (dynamic conversation in conversations)
 				{
@@ -42,7 +42,7 @@ namespace FleepBot.Commands
 					}
 				}
 
-			} while (!found && !string.IsNullOrWhiteSpace((string)conversations));
+			} while (!found && conversations != null && conversations.HasValues);
 
 			if (!found)
 				FleepBot.Program.SendErrorMessage(convid, "Error: could not find conversation.");

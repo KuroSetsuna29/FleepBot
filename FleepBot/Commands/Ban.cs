@@ -73,8 +73,7 @@ namespace FleepBot.Commands
 			}
 
 			TimeSpan timespan = new TimeSpan(int.Parse(days), int.Parse(hours), int.Parse(minutes), int.Parse(seconds));
-			dynamic memberinfo = FleepBot.Program.ApiPost("api/contact/sync", new { contact_id = member, ticket = FleepBot.Program.TICKET });
-			string contact_name = memberinfo.contact_name;
+			string contact_name = FleepBot.Program.GetUserName(account_id);
 
 			if (String.IsNullOrEmpty(contact_name))
 			{
