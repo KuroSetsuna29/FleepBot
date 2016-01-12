@@ -261,6 +261,11 @@ namespace FleepBot
 								Items command = new Items();
 								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
+							else if (Ping.regex.IsMatch(message))
+							{
+								Ping command = new Ping();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
 							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
 								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
 								&& account_id.ToLower() != JAMES

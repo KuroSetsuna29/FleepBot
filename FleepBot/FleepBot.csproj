@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\Awaken.cs" />
+    <Compile Include="Commands\Ping.cs" />
     <Compile Include="Commands\Items.cs" />
     <Compile Include="Commands\ListReminder.cs" />
     <Compile Include="Commands\ListBan.cs" />
