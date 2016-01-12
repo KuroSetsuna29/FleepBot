@@ -35,12 +35,14 @@ namespace FleepBot
 
 		public static string TESTCHAT = "60366328-1f6e-4674-a520-036bf92adb1e";
 		public static string SOULCHAT = "d43d3128-3db9-4147-b46c-f8efd11573d4";
-		public static string JAMESCHAT = "d43d3128-3db9-4147-b46c-f8efd11573d4";
+		public static string JAMESCHAT = "fe9f439a-fba4-4169-9a9c-05473be56192";
+		public static string TEDDYCHAT = "95afa794-75e1-4637-8c70-98bd276a277e";
 		public static string JAMES = "37744223-d15a-4c64-a03f-73825b6a7971";
 		public static string JENNY = "71c8924b-db05-4216-bc2b-5fa975c34558";
 		public static string JACK = "1e0ca824-b45b-41b3-b76b-c2c663775e5f";
 		public static string JON = "9a0acc6b-081a-4e44-83be-e08b7e5ed338";
 		public static string ALEXA = "ff370d1c-49c8-4374-b18f-4b26dc7a7c56";
+		public static List<string> ADMIN_CHATS = new List<string>() { TESTCHAT, JAMESCHAT };
 
 		public static string HANGOUTS_JAMES = "Ugz_UcDODOqHt5O-s9p4AaABAagBrI-CBQ";
 		public static string HANGOUTS_SOULCHAT = "UgyyFKOFE69CUfgfuIJ4AaABAQ";
@@ -261,7 +263,10 @@ namespace FleepBot
 							}
 							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
 								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
-								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JAMES)), RegexOptions.IgnoreCase).IsMatch(message))
+								&& account_id.ToLower() != JAMES
+								&& (new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JAMES)), RegexOptions.IgnoreCase).IsMatch(message)
+									|| new Regex("kuro", RegexOptions.IgnoreCase).IsMatch(message)
+									|| conversation_id.ToLower() == TEDDYCHAT))
 							{
 								new Thread(() =>
 								{

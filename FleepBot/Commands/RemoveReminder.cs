@@ -17,7 +17,7 @@ namespace FleepBot.Commands
 		{
 			string id = regex.Match(message).Groups[1].Value;
 
-			if (convid != FleepBot.Program.TESTCHAT)
+			if (!FleepBot.Program.ADMIN_CHATS.Contains(convid.ToLower()))
 			{
 				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;

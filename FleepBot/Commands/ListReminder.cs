@@ -14,7 +14,7 @@ namespace FleepBot.Commands
 
 		protected override void execute(string convid, string message, string account_id)
 		{
-			if (convid != FleepBot.Program.TESTCHAT)
+			if (!FleepBot.Program.ADMIN_CHATS.Contains(convid.ToLower()))
 			{
 				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;

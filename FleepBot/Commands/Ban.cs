@@ -66,7 +66,7 @@ namespace FleepBot.Commands
 			minutes = String.IsNullOrEmpty(minutes) ? "0" : minutes;
 			seconds = String.IsNullOrEmpty(seconds) ? "0" : seconds;
 
-			if (convid != FleepBot.Program.TESTCHAT)
+			if (!FleepBot.Program.ADMIN_CHATS.Contains(convid.ToLower()))
 			{
 				FleepBot.Program.SendErrorMessage(convid, "Error: Admin commands not permitted");
 				return;
