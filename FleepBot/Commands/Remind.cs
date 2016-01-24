@@ -17,6 +17,7 @@ namespace FleepBot.Commands
 			public TimeSpan Delay = new TimeSpan();
 			public string ConvID = "";
 			public string Message = "";
+			public string HangoutsChat = "";
 			private Timer timer = new Timer();
 			private DateTime _ends = new DateTime();
 
@@ -27,6 +28,23 @@ namespace FleepBot.Commands
 				this.ConvID = convid;
 				this.Message = message;
 				
+				timer = new Timer(delay.TotalMilliseconds);
+				timer.Elapsed += new ElapsedEventHandler(execute);
+				timer.Enabled = true;
+				timer.AutoReset = false;
+				_ends = DateTime.Now.Add(delay);
+
+				FleepBot.Program.REMINDERS.Add(this);
+			}
+
+			public Reminder(string user, TimeSpan delay, string convid, string message, string hangoutsChat)
+			{
+				this.User = user;
+				this.Delay = delay;
+				this.ConvID = convid;
+				this.Message = message;
+				this.HangoutsChat = hangoutsChat;
+
 				timer = new Timer(delay.TotalMilliseconds);
 				timer.Elapsed += new ElapsedEventHandler(execute);
 				timer.Enabled = true;
@@ -56,6 +74,11 @@ namespace FleepBot.Commands
 			{
 				Remove();
 				FleepBot.Program.SendMessage(ConvID, String.Format("From {0}:\n:::\n{1}", User, Message));
+
+				if (!String.IsNullOrWhiteSpace(HangoutsChat))
+				{
+					FleepBot.Program.SendHangouts(HangoutsChat, Message);
+				}
 			}
 		}
 

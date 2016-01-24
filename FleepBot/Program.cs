@@ -88,6 +88,11 @@ namespace FleepBot
 
 						dbclient.PutItem(item);
 					}
+
+					if (e.Message.Contains("Response Status Code - Unauthorized"))
+					{
+						Login();
+					}
 				}
 			}
 		}
@@ -126,6 +131,9 @@ namespace FleepBot
 		private static void GetMessage()
 		{
             dynamic resp = ApiPost("api/account/poll", new { wait = true, event_horizon = EVENT_HORIZON, ticket = TICKET });
+
+			if (resp == null || resp.event_horizon == null)
+				throw new Exception("Failed to poll Fleep!");
 
 			EVENT_HORIZON = resp.event_horizon;
 
@@ -264,6 +272,16 @@ namespace FleepBot
 							else if (Ping.regex.IsMatch(message))
 							{
 								Ping command = new Ping();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (RemindJames.regex.IsMatch(message))
+							{
+								RemindJames command = new RemindJames();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (Enemy7s.regex.IsMatch(message))
+							{
+								Enemy7s command = new Enemy7s();
 								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
