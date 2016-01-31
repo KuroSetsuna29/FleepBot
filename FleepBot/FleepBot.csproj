@@ -66,6 +66,7 @@
     <Compile Include="Commands\Items.cs" />
     <Compile Include="Commands\ListReminder.cs" />
     <Compile Include="Commands\ListBan.cs" />
+    <Compile Include="Commands\Raid.cs" />
     <Compile Include="Commands\RemindJames.cs" />
     <Compile Include="Commands\RemoveReminder.cs" />
     <Compile Include="Commands\Unban.cs" />

@@ -10,10 +10,12 @@ namespace FleepBot.Commands
     class Help : BaseCommand
 	{
 		public override string command_name { get { return "Help"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}help.*</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}help(?:\\s+(.*))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
+			string search = regex.Match(message).Groups[1].Value;
+
 			List<string> commands = new List<string>()
 			{
 				FleepBot.Program.COMMAND_PREFIX + "help - Show this message",
@@ -29,11 +31,21 @@ namespace FleepBot.Commands
 				FleepBot.Program.COMMAND_PREFIX + "items _Item1_ [, _Item2_ ] - Show stats for each item",
 				FleepBot.Program.COMMAND_PREFIX + "myatkhistory - DEPRECATED. Please use " + FleepBot.Program.COMMAND_PREFIX + "mymatchup instead",
 				FleepBot.Program.COMMAND_PREFIX + "mymatchup [ _GuildName1_ | _Opponent1_ ] [, _GuildName2_ | _Opponent2_ ] - Show matchup score, optionally search for a list of opponents or guilds",
-				FleepBot.Program.COMMAND_PREFIX + "remind [Xd][Xh][Xm][Xs] _Message_ - Repeat _Message_ after delay specified.",
+				FleepBot.Program.COMMAND_PREFIX + "raidcreate _Room_ _Pass_ _Role_ - Create a new raid room.",
+				FleepBot.Program.COMMAND_PREFIX + "raidfull _Room_ - Indicate room is full",
+				FleepBot.Program.COMMAND_PREFIX + "raidjoin [ _Room_ ] _Role_ - Find a room to join as _Role_. Enter _Room_ to join specific room",
+				FleepBot.Program.COMMAND_PREFIX + "raidkick _Room_ _Role_ - Clear _Role_ as open spot",
+				FleepBot.Program.COMMAND_PREFIX + "remind [Xd][Xh][Xm][Xs] _Message_ - Repeat _Message_ after delay specified",
 				FleepBot.Program.COMMAND_PREFIX + "teams [ _Search_ ] - Search all teams for _Search_, leave blank to list all teams",
 				FleepBot.Program.COMMAND_PREFIX + "whoison [ _X_ ] - Show who was on Fleep in the past X hours (optional), default 1 hour",
 			};
 			
+			if (!String.IsNullOrWhiteSpace(search))
+			{
+				Regex r = new Regex(search, RegexOptions.IgnoreCase);
+                commands = commands.Where(c => r.IsMatch(c)).ToList();
+			}
+
 			string msg = String.Join("\n", commands);
 			FleepBot.Program.SendMessage(convid, msg);
 		}

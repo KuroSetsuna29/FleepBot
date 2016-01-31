@@ -49,6 +49,7 @@ namespace FleepBot
 
 		public static List<Ban.BanTimer> BANLIST = new List<Ban.BanTimer>();
 		public static List<Remind.Reminder> REMINDERS = new List<Remind.Reminder>();
+		public static List<RaidRoom> RAIDS = new List<RaidRoom>();
 
 		static void Main(string[] args)
 		{
@@ -282,6 +283,31 @@ namespace FleepBot
 							else if (Enemy7s.regex.IsMatch(message))
 							{
 								Enemy7s command = new Enemy7s();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (RaidCreate.regex.IsMatch(message))
+							{
+								RaidCreate command = new RaidCreate();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (RaidJoin.regex.IsMatch(message))
+							{
+								RaidJoin command = new RaidJoin();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (RaidKick.regex.IsMatch(message))
+							{
+								RaidKick command = new RaidKick();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (RaidFull.regex.IsMatch(message))
+							{
+								RaidFull command = new RaidFull();
+								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+							}
+							else if (RaidPromote.regex.IsMatch(message))
+							{
+								RaidPromote command = new RaidPromote();
 								new Thread(() => command.process(conversation_id, message, account_id)).Start();
 							}
 							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
