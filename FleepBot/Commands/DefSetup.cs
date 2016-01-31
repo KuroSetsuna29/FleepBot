@@ -23,8 +23,8 @@ namespace FleepBot.Commands
 			}
 
 			List<string> members = search.Split(',', ' ').Select(x => x.ToLower().Trim()).ToList();
-			string query = String.Format("select A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA where lower(A) matches '.*({0}).*'", String.Join("|", members));
-			Tuple<List<dynamic>, List<dynamic>> stats = FleepBot.Program.GetGoogleSheet(convid, "1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk", "720812518", query, 1, "A:AA");
+			string query = String.Format("select A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC where lower(A) matches '.*({0}).*'", String.Join("|", members));
+			Tuple<List<dynamic>, List<dynamic>> stats = FleepBot.Program.GetGoogleSheet(convid, "1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk", "720812518", query, 1, "A:AC");
 
 			if (stats == null)
 			{
@@ -46,8 +46,10 @@ namespace FleepBot.Commands
 				|| !stats.Item1.Any(c => c.id.Value == "W" && c.label.Value.Trim() == "Buffgrp2")
 				|| !stats.Item1.Any(c => c.id.Value == "X" && c.label.Value.Trim() == "SetItemSet")
 				|| !stats.Item1.Any(c => c.id.Value == "Y" && c.label.Value.Trim() == "Costume")
-				|| !stats.Item1.Any(c => c.id.Value == "Z" && c.label.Value.Trim() == "Rating")
-				|| !stats.Item1.Any(c => c.id.Value == "AA" && c.label.Value.Trim() == "Rank"))
+				|| !stats.Item1.Any(c => c.id.Value == "Z" && c.label.Value.Trim() == "7*Skill")
+				|| !stats.Item1.Any(c => c.id.Value == "AA" && c.label.Value.Trim() == "Rating")
+				|| !stats.Item1.Any(c => c.id.Value == "AB" && c.label.Value.Trim() == "Rank")
+				|| !stats.Item1.Any(c => c.id.Value == "AC" && c.label.Value.Trim() == "7*Count"))
 			{
 				FleepBot.Program.SendErrorMessage(convid);
 				return;
@@ -74,13 +76,15 @@ namespace FleepBot.Commands
 								(stats.Item2.Max(x => (x.c[22] != null ? x.c[22].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2));
 			int setItemLen = Math.Max((stats.Item2.Max(x => (x.c[23] != null ? x.c[23].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 9);
 			int costumeLen = Math.Max((stats.Item2.Max(x => (x.c[24] != null ? x.c[24].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 9);
-			int ratingLen = Math.Max((stats.Item2.Max(x => (x.c[25] != null ? x.c[25].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 8);
-			int rankLen = Math.Max((stats.Item2.Max(x => (x.c[26] != null ? x.c[26].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 6);
+			int skill7sLen = Math.Max((stats.Item2.Max(x => (x.c[25] != null ? x.c[25].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 9);
+			int ratingLen = Math.Max((stats.Item2.Max(x => (x.c[26] != null ? x.c[26].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 8);
+			int rankLen = Math.Max((stats.Item2.Max(x => (x.c[27] != null ? x.c[27].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 6);
+			int count7sLen = Math.Max((stats.Item2.Max(x => (x.c[28] != null ? x.c[28].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 9);
 
 			string msg = String.Format("No member(s) found for '{0}'. Check spelling.", search);
 			if (stats.Item2.Count > 0)
 			{
-				msg = String.Format(":::\n{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}\n",
+				msg = String.Format(":::\n{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}\n",
 						"Name".PadRight(nameLen),
 						"Hero1".PadRight(hero1Len),
 						"Hero2".PadRight(hero2Len),
@@ -90,9 +94,11 @@ namespace FleepBot.Commands
 						"BuffGrp".PadRight(buffLen),
 						"SetItem".PadRight(setItemLen),
 						"Costume".PadRight(costumeLen),
+						"7*Skill".PadRight(skill7sLen),
 						"Rating".PadRight(ratingLen),
-						"Rank".PadRight(rankLen))
-						+ String.Join("\n", stats.Item2.Select(x => String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}\n{11}{12}{13}{14}{15}{16}{17}",
+						"Rank".PadRight(rankLen),
+						"7*Count".PadRight(count7sLen))
+						+ String.Join("\n", stats.Item2.Select(x => String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}\n{13}{14}{15}{16}{17}{18}{19}",
 						x.c[0].v.Value.ToString().Trim().PadRight(nameLen),
 						((x.c[1] != null ? x.c[1].v.Value.ToString().Trim() : "") + "+" + (x.c[2] != null ? x.c[2].v.Value.ToString().Trim() : "")).PadRight(hero1Len),
 						((x.c[3] != null ? x.c[3].v.Value.ToString().Trim() : "") + "+" + (x.c[4] != null ? x.c[4].v.Value.ToString().Trim() : "")).PadRight(hero2Len),
@@ -101,9 +107,11 @@ namespace FleepBot.Commands
 						((x.c[9] != null ? x.c[9].v.Value.ToString().Trim() : "") + "+" + (x.c[10] != null ? x.c[10].v.Value.ToString().Trim() : "")).PadRight(hero5Len),
 						(x.c[21] != null ? x.c[21].v.Value.ToString().Trim() : "").PadRight(buffLen),
 						(x.c[23] != null ? x.c[23].v.Value.ToString().Trim() : "").PadRight(setItemLen),
-						(x.c[23] != null ? x.c[24].v.Value.ToString().Trim() : "").PadRight(costumeLen),
-						(x.c[24] != null ? x.c[25].v.Value.ToString().Trim() : "").PadRight(ratingLen),
-						(x.c[25] != null ? x.c[26].v.Value.ToString().Trim() : "").PadRight(rankLen),
+						(x.c[24] != null ? x.c[24].v.Value.ToString().Trim() : "").PadRight(costumeLen),
+						(x.c[25] != null ? x.c[25].v.Value.ToString().Trim() : "").PadRight(skill7sLen),
+						(x.c[26] != null ? x.c[26].v.Value.ToString().Trim() : "").PadRight(ratingLen),
+						(x.c[27] != null ? x.c[27].v.Value.ToString().Trim() : "").PadRight(rankLen),
+						(x.c[28] != null ? x.c[28].v.Value.ToString().Trim() : "").PadRight(count7sLen),
 						"".PadRight(nameLen),
 						((x.c[11] != null ? x.c[11].v.Value.ToString().Trim() : "") + "+" + (x.c[12] != null ? x.c[12].v.Value.ToString().Trim() : "")).PadRight(hero1Len),
 						((x.c[13] != null ? x.c[13].v.Value.ToString().Trim() : "") + "+" + (x.c[14] != null ? x.c[14].v.Value.ToString().Trim() : "")).PadRight(hero2Len),
