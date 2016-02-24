@@ -35,6 +35,7 @@ namespace FleepBot
 
 		public static string TESTCHAT = "60366328-1f6e-4674-a520-036bf92adb1e";
 		public static string SOULCHAT = "d43d3128-3db9-4147-b46c-f8efd11573d4";
+		public static string SKCHAT = "c84f256a-166d-4d0b-8cd7-7c52c05a1e94";
 		public static string JAMESCHAT = "fe9f439a-fba4-4169-9a9c-05473be56192";
 		public static string TEDDYCHAT = "95afa794-75e1-4637-8c70-98bd276a277e";
 		public static string JAMES = "37744223-d15a-4c64-a03f-73825b6a7971";
@@ -59,6 +60,26 @@ namespace FleepBot
 				throw new Exception("Failed to login!");
 
 			//RepeatMessage costume = new RepeatMessage(SOULCHAT, "It's hammer time, don't forget to upgrade your costumes.", 200);
+
+			DateTime Base = DateTime.Now.Date + new TimeSpan(3, 0, 0);
+			DateTime NextSundayStart = Base.AddDays((7 - (int)DateTime.Now.DayOfWeek) % 7);
+			DateTime NextSundayEnd = NextSundayStart.AddHours(19);
+			DateTime NextTuesdayStart = Base.AddDays((9 - (int)DateTime.Now.DayOfWeek) % 7);
+			DateTime NextTuesdayEnd = NextTuesdayStart.AddHours(19);
+			DateTime NextFridayStart = Base.AddDays((12 - (int)DateTime.Now.DayOfWeek) % 7);
+			DateTime NextFridayEnd = NextFridayStart.AddHours(19);
+			if (NextSundayStart < DateTime.Now) NextSundayStart = NextSundayStart.AddDays(7);
+			if (NextSundayEnd < DateTime.Now) NextSundayEnd = NextSundayEnd.AddDays(7);
+			if (NextTuesdayStart < DateTime.Now) NextTuesdayStart = NextTuesdayStart.AddDays(7);
+			if (NextTuesdayEnd < DateTime.Now) NextTuesdayEnd = NextTuesdayEnd.AddDays(7);
+			if (NextFridayStart < DateTime.Now) NextFridayStart = NextFridayStart.AddDays(7);
+			if (NextFridayEnd < DateTime.Now) NextFridayEnd = NextFridayEnd.AddDays(7);
+			RepeatMessage sk_gw_sunday_start = new RepeatMessage(SKCHAT, "New Guild War Started, please attack.", NextSundayStart, 10080);
+			RepeatMessage sk_gw_sunday_end = new RepeatMessage(SKCHAT, "Guild War ending in 5 hours, don't forget to attack.", NextSundayEnd, 10080);
+			RepeatMessage sk_gw_tuesday_start = new RepeatMessage(SKCHAT, "New Guild War Started, please attack.", NextTuesdayStart, 10080);
+			RepeatMessage sk_gw_tuesday_end = new RepeatMessage(SKCHAT, "Guild War ending in 5 hours, don't forget to attack.", NextTuesdayEnd, 10080);
+			RepeatMessage sk_gw_friday_start = new RepeatMessage(SKCHAT, "New Guild War Started, please attack.", NextFridayStart, 10080);
+			RepeatMessage sk_gw_friday_end = new RepeatMessage(SKCHAT, "Guild War ending in 5 hours, don't forget to attack.", NextFridayEnd, 10080);
 
 			while (!String.IsNullOrEmpty(ACCOUNT_ID))
 			{
