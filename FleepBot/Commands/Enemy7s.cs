@@ -27,7 +27,7 @@ namespace FleepBot.Commands
 
 			if (stats == null)
 			{
-				FleepBot.Program.SendErrorMessage(convid, "Error: Something unexpected happen. See https://docs.google.com/spreadsheets/d/1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE/edit#gid=763917879");
+				FleepBot.Program.SendErrorMessage(convid, "Error: Something unexpected happen. See https://docs.google.com/spreadsheets/d/1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk/edit#gid=1310592142");
                 return;
 			}
 
@@ -74,7 +74,7 @@ namespace FleepBot.Commands
 								+ (x.c[16] != null && !String.IsNullOrWhiteSpace(x.c[16].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[16].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[17].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[17].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[17].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[17].v.Value.ToString().Trim()) : "")
 								+ (x.c[18] != null && !String.IsNullOrWhiteSpace(x.c[18].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[18].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[19].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[19].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[19].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[19].v.Value.ToString().Trim()) : "")
 								+ (x.c[20] != null && !String.IsNullOrWhiteSpace(x.c[20].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[20].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[21].v.Value.ToString().Trim()) : ""))))
-						+ "\n:::\nhttps://docs.google.com/spreadsheets/d/1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE/edit#gid=763917879";
+						+ "\n:::\nhttps://docs.google.com/spreadsheets/d/1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk/edit#gid=1310592142";
 
 				FleepBot.Program.SendMessage(convid, msg);
 			}
