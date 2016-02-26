@@ -10,7 +10,7 @@ namespace FleepBot.Commands
     class Help : BaseCommand
 	{
 		public override string command_name { get { return "Help"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}help(?:\\s+(.*))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}help(?:\\s+(.*))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
@@ -19,10 +19,12 @@ namespace FleepBot.Commands
 			List<string> commands = new List<string>()
 			{
 				FleepBot.Program.COMMAND_PREFIX + "help - Show this message",
+				FleepBot.Program.COMMAND_PREFIX + "arena7s _PlayerName1_ [, _PlayerName2_ ] - Get a list of 7* hero skills for players",
 				FleepBot.Program.COMMAND_PREFIX + "atkhistory _GuildName_ - List previous attack results against _GuildName_",
 				FleepBot.Program.COMMAND_PREFIX + "awaken _Hero_ - Show awaken mats required for hero",
 				FleepBot.Program.COMMAND_PREFIX + "defsetup _Member1_ [, _Member2_ ][, _Member3_ ] - Compare defense setups",
 				FleepBot.Program.COMMAND_PREFIX + "echo _Message_ - Repeat your _Message_",
+				FleepBot.Program.COMMAND_PREFIX + "enemy7s _GuildName_ - Get a list of 7* hero skills for _GuildName_",
 				FleepBot.Program.COMMAND_PREFIX + "gbpoints _GuildName_ _Points_ - Submit _Points_ for _GuildName_ during Guild Battle. Hint: Use new line for multiple guilds",
 				FleepBot.Program.COMMAND_PREFIX + "heroinfo _Hero1_ [, _Hero2_ ] - Show stats for each hero",
 				FleepBot.Program.COMMAND_PREFIX + "heroinfo7 _Hero1_ [, _Hero2_ ] - Show stats for each 7* hero",

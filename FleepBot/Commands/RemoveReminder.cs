@@ -11,7 +11,7 @@ namespace FleepBot.Commands
     class RemoveReminder : BaseCommand
 	{
 		public override string command_name { get { return "RemoveReminder"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}removereminder(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}removereminder(?:\\s+(.+))?$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{

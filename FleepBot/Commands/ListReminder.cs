@@ -10,7 +10,7 @@ namespace FleepBot.Commands
     class ListReminder : BaseCommand
 	{
 		public override string command_name { get { return "ListReminder"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}listreminder(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}listreminder(?:\\s+(.+))?$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{

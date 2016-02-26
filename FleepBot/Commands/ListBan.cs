@@ -10,7 +10,7 @@ namespace FleepBot.Commands
     class ListBan : BaseCommand
 	{
 		public override string command_name { get { return "ListBan"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}listban(?:\\s+(.+))?</p></msg>$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}listban(?:\\s+(.+))?$", FleepBot.Program.ADMIN_COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{

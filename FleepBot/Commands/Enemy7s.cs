@@ -10,7 +10,7 @@ namespace FleepBot.Commands
 	class Enemy7s : BaseCommand
 	{
 		public override string command_name { get { return "Enemy7s"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}enemy7s(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}enemy7s(?:\\s+(.+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
@@ -73,7 +73,8 @@ namespace FleepBot.Commands
 								+ (x.c[14] != null && !String.IsNullOrWhiteSpace(x.c[14].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[14].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[15].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[15].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[15].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[15].v.Value.ToString().Trim()) : "")
 								+ (x.c[16] != null && !String.IsNullOrWhiteSpace(x.c[16].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[16].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[17].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[17].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[17].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[17].v.Value.ToString().Trim()) : "")
 								+ (x.c[18] != null && !String.IsNullOrWhiteSpace(x.c[18].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[18].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[19].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[19].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[19].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[19].v.Value.ToString().Trim()) : "")
-								+ (x.c[20] != null && !String.IsNullOrWhiteSpace(x.c[20].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[20].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[21].v.Value.ToString().Trim()) : ""))));
+								+ (x.c[20] != null && !String.IsNullOrWhiteSpace(x.c[20].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen) + x.c[20].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[21].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[21].v.Value.ToString().Trim()) : ""))))
+						+ "\n:::\nhttps://docs.google.com/spreadsheets/d/1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE/edit#gid=763917879";
 
 				FleepBot.Program.SendMessage(convid, msg);
 			}

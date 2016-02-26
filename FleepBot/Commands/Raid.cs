@@ -191,7 +191,7 @@ namespace FleepBot.Commands
 	class RaidCreate : BaseCommand
 	{
 		public override string command_name { get { return "RaidCreate"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}raidcreate(?:\\s+(\\d+)\\s+(\\d+)\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}raidcreate(?:\\s+(\\d+)\\s+(\\d+)\\s+(.+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
@@ -223,7 +223,7 @@ namespace FleepBot.Commands
 	class RaidJoin : BaseCommand
 	{
 		public override string command_name { get { return "RaidJoin"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}raidjoin(?:\\s+(?:(\\d+)\\s+)?(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}raidjoin(?:\\s+(?:(\\d+)\\s+)?(.+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
@@ -277,7 +277,7 @@ namespace FleepBot.Commands
 	class RaidKick : BaseCommand
 	{
 		public override string command_name { get { return "RaidKick"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}raidkick(?:\\s+(\\d+)\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}raidkick(?:\\s+(\\d+)\\s+(.+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
@@ -325,7 +325,7 @@ namespace FleepBot.Commands
 	class RaidFull : BaseCommand
 	{
 		public override string command_name { get { return "RaidFull"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}raidfull(?:\\s+(\\d+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}raidfull(?:\\s+(\\d+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{
@@ -355,7 +355,7 @@ namespace FleepBot.Commands
 	class RaidPromote : BaseCommand
 	{
 		public override string command_name { get { return "RaidFull"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}raidpromote(?:\\s+(\\d+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}raidpromote(?:\\s+(\\d+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{

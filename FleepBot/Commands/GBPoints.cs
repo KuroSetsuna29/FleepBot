@@ -10,7 +10,7 @@ namespace FleepBot.Commands
     class GBPoints : BaseCommand
 	{
 		public override string command_name { get { return "GBPoints"; } }
-		public static Regex regex = new Regex(String.Format("^<msg><p>\\{0}gbpoints(?:\\s+(.+))?</p></msg>$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase);
+		public static Regex regex = new Regex(String.Format("^\\{0}gbpoints(?:\\s+(.+))?$", FleepBot.Program.COMMAND_PREFIX), RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
 
 		protected override void execute(string convid, string message, string account_id)
 		{

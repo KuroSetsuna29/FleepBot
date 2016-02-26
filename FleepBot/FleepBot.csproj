@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\Awaken.cs" />
+    <Compile Include="Commands\Arena7s.cs" />
     <Compile Include="Commands\Enemy7s.cs" />
     <Compile Include="Commands\Ping.cs" />
     <Compile Include="Commands\Items.cs" />

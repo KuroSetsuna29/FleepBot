@@ -165,12 +165,15 @@ namespace FleepBot
 				{
 					string conversation_id = stream.conversation_id;
 					string message = stream.message;
-					string account_id = stream.account_id;
+					string messageNewLines = (message ?? "").Replace("<br/>", "\r\n").Replace("<msg><p>", "").Replace("</p></msg>", "");
+					 string account_id = stream.account_id;
 
 					try
 					{
 						DateTime time = Utils.parseUnixTimestamp(stream.edited_time != null ? stream.edited_time.Value : stream.posted_time.Value);
-						if (time >= START && account_id != ACCOUNT_ID)
+						if (time >= START && account_id != ACCOUNT_ID
+								&& stream.posted_time != 1453836472 // ignore message
+							)
 						{
 							Log(String.Format("[{0}] {1}", time, message));
 
@@ -181,155 +184,165 @@ namespace FleepBot
 								return;
 							}
 
-							if (Help.regex.IsMatch(message))
+							if (Help.regex.IsMatch(messageNewLines))
 							{
 								Help command = new Help();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Echo.regex.IsMatch(message))
+							else if (Echo.regex.IsMatch(messageNewLines))
 							{
 								Echo command = new Echo();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (WhoIsOn.regex.IsMatch(message))
+							else if (WhoIsOn.regex.IsMatch(messageNewLines))
 							{
 								WhoIsOn command = new WhoIsOn();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (IGN.regex.IsMatch(message))
+							else if (IGN.regex.IsMatch(messageNewLines))
 							{
 								IGN command = new IGN();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (AtkHistory.regex.IsMatch(message))
+							else if (AtkHistory.regex.IsMatch(messageNewLines))
 							{
 								AtkHistory command = new AtkHistory();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Teams.regex.IsMatch(message))
+							else if (Teams.regex.IsMatch(messageNewLines))
 							{
 								Teams command = new Teams();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (HeroInfo.regex.IsMatch(message))
+							else if (HeroInfo.regex.IsMatch(messageNewLines))
 							{
 								HeroInfo command = new HeroInfo();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (HeroInfo7.regex.IsMatch(message))
+							else if (HeroInfo7.regex.IsMatch(messageNewLines))
 							{
 								HeroInfo7 command = new HeroInfo7();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Awaken.regex.IsMatch(message))
+							else if (Awaken.regex.IsMatch(messageNewLines))
 							{
 								Awaken command = new Awaken();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (MyMatchUp.regex.IsMatch(message))
+							else if (MyMatchUp.regex.IsMatch(messageNewLines))
 							{
 								MyMatchUp command = new MyMatchUp();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (GBPoints.regex.IsMatch(message))
+							else if (GBPoints.regex.IsMatch(messageNewLines))
 							{
 								GBPoints command = new GBPoints();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Honor.regex.IsMatch(message))
+							else if (Honor.regex.IsMatch(messageNewLines))
 							{
 								Honor command = new Honor();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (ListConv.regex.IsMatch(message))
+							else if (ListConv.regex.IsMatch(messageNewLines))
 							{
 								ListConv command = new ListConv();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (ListMembers.regex.IsMatch(message))
+							else if (ListMembers.regex.IsMatch(messageNewLines))
 							{
 								ListMembers command = new ListMembers();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (DefSetup.regex.IsMatch(message))
+							else if (DefSetup.regex.IsMatch(messageNewLines))
 							{
 								DefSetup command = new DefSetup();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Remind.regex.IsMatch(message))
+							else if (Remind.regex.IsMatch(messageNewLines))
 							{
 								Remind command = new Remind();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (ListReminder.regex.IsMatch(message))
+							else if (ListReminder.regex.IsMatch(messageNewLines))
 							{
 								ListReminder command = new ListReminder();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RemoveReminder.regex.IsMatch(message))
+							else if (RemoveReminder.regex.IsMatch(messageNewLines))
 							{
 								RemoveReminder command = new RemoveReminder();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Ban.regex.IsMatch(message))
+							else if (Ban.regex.IsMatch(messageNewLines))
 							{
 								Ban command = new Ban();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (ListBan.regex.IsMatch(message))
+							else if (ListBan.regex.IsMatch(messageNewLines))
 							{
 								ListBan command = new ListBan();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Unban.regex.IsMatch(message))
+							else if (Unban.regex.IsMatch(messageNewLines))
 							{
 								Unban command = new Unban();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Items.regex.IsMatch(message))
+							else if (Items.regex.IsMatch(messageNewLines))
 							{
 								Items command = new Items();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Ping.regex.IsMatch(message))
+							else if (Ping.regex.IsMatch(messageNewLines))
 							{
 								Ping command = new Ping();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RemindJames.regex.IsMatch(message))
+							else if (RemindJames.regex.IsMatch(messageNewLines))
 							{
 								RemindJames command = new RemindJames();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (Enemy7s.regex.IsMatch(message))
+							else if (Enemy7s.regex.IsMatch(messageNewLines))
 							{
 								Enemy7s command = new Enemy7s();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RaidCreate.regex.IsMatch(message))
+							else if (Arena7s.regex.IsMatch(messageNewLines))
+							{
+								Arena7s command = new Arena7s();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
+							}
+							else if (RaidCreate.regex.IsMatch(messageNewLines))
 							{
 								RaidCreate command = new RaidCreate();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RaidJoin.regex.IsMatch(message))
+							else if (RaidJoin.regex.IsMatch(messageNewLines))
 							{
 								RaidJoin command = new RaidJoin();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RaidKick.regex.IsMatch(message))
+							else if (RaidKick.regex.IsMatch(messageNewLines))
 							{
 								RaidKick command = new RaidKick();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RaidFull.regex.IsMatch(message))
+							else if (RaidFull.regex.IsMatch(messageNewLines))
 							{
 								RaidFull command = new RaidFull();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (RaidPromote.regex.IsMatch(message))
+							else if (RaidPromote.regex.IsMatch(messageNewLines))
 							{
 								RaidPromote command = new RaidPromote();
-								new Thread(() => command.process(conversation_id, message, account_id)).Start();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
+							}
+							else if (Arena7s.regex.IsMatch(messageNewLines))
+							{
+								Arena7s command = new Arena7s();
+								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
 							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
 								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
