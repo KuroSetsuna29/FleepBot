@@ -1,0 +1,34 @@
+#application: fleepbotstaging
+application: fleepbot-1247
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+automatic_scaling:
+  min_idle_instances: 0
+  max_idle_instances: 1
+  min_pending_latency: 15s
+  max_pending_latency: 15s
+  max_concurrent_requests: 80
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /fleepbot
+  script: fleepbot.app
+
+- url: /commands/([^/]+)
+  script: commands.\1.app
+
+- url: /.*
+  script: main.app
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+
+- name: ssl
+  version: latest
