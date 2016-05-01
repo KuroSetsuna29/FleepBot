@@ -46,16 +46,16 @@ namespace FleepBot.Commands
 				return;
 			}
 
-			int heroLen = Math.Max((stats.Item2.Max(x => x.c[0].v.Value.ToString().Trim().Length) ?? 0) + 2, 6);
-			int effectLen = Math.Max((stats.Item2.Max(x => x.c[1].v.Value.ToString().Trim().Length) ?? 0) + 2, 8);
-			int cooldownLen = Math.Max((stats.Item2.Max(x => x.c[2].v.Value.ToString().Trim().Length) ?? 0) + 2, 4);
-			int atkLen = Math.Max((stats.Item2.Max(x => x.c[6].v.Value.ToString().Trim().Length) ?? 0) + 2, 7);
-			int dpsLen = Math.Max((stats.Item2.Max(x => x.c[7].v.Value.ToString().Trim().Length) ?? 0) + 2, 7);
-			int defLen = Math.Max((stats.Item2.Max(x => x.c[8].v.Value.ToString().Trim().Length) ?? 0) + 2, 7);
-			int hpLen = Math.Max((stats.Item2.Max(x => x.c[9].v.Value.ToString().Trim().Length) ?? 0) + 2, 6);
-			int aspdLen = Math.Max((stats.Item2.Max(x => x.c[3].v.Value.ToString().Trim().Length) ?? 0) + 2, 6);
-			int mobLen = Math.Max((stats.Item2.Max(x => x.c[4].v.Value.ToString().Trim().Length) ?? 0) + 2, 5);
-			int critLen = Math.Max((stats.Item2.Max(x => x.c[5].v.Value.ToString().Trim().Length) ?? 0) + 2, 6); ;
+			int heroLen = Math.Max((stats.Item2.Max(x => x.c[0] != null && x.c[0].v != null ? x.c[0].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 6);
+			int effectLen = Math.Max((stats.Item2.Max(x => x.c[1] != null && x.c[1].v != null ? x.c[1].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 8);
+			int cooldownLen = Math.Max((stats.Item2.Max(x => x.c[2] != null && x.c[2].v != null ? x.c[2].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 4);
+			int atkLen = Math.Max((stats.Item2.Max(x => x.c[6] != null && x.c[6].v != null ? x.c[6].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 7);
+			int dpsLen = Math.Max((stats.Item2.Max(x => x.c[7] != null && x.c[7].v != null ? x.c[7].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 7);
+			int defLen = Math.Max((stats.Item2.Max(x => x.c[8] != null && x.c[8].v != null ? x.c[8].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 7);
+			int hpLen = Math.Max((stats.Item2.Max(x => x.c[9] != null && x.c[9].v != null ? x.c[9].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 6);
+			int aspdLen = Math.Max((stats.Item2.Max(x => x.c[3] != null && x.c[3].v != null ? x.c[3].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 6);
+			int mobLen = Math.Max((stats.Item2.Max(x => x.c[4] != null && x.c[4].v != null ? x.c[4].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 5);
+			int critLen = Math.Max((stats.Item2.Max(x => x.c[5] != null && x.c[5].v != null ? x.c[5].v.Value.ToString().Trim().Length : 0) ?? 0) + 2, 6); ;
 
 			string msg = String.Format("No hero(s) found for '{0}'. Check spelling.", search);
 			if (stats.Item2.Count > 0)
@@ -73,16 +73,16 @@ namespace FleepBot.Commands
 						"Mob".PadRight(mobLen),
 						"Crit".PadRight(critLen))
 						+ String.Join("\n", stats.Item2.Select(x => String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}",
-						x.c[0].v.Value.ToString().Trim().PadRight(heroLen),
-						x.c[1].v.Value.ToString().Trim().PadRight(effectLen),
-						x.c[2].v.Value.ToString().Trim().PadRight(cooldownLen),
-						x.c[6].v.Value.ToString().Trim().PadRight(atkLen),
-						x.c[7].v.Value.ToString().Trim().PadRight(dpsLen),
-						x.c[8].v.Value.ToString().Trim().PadRight(defLen),
-						x.c[9].v.Value.ToString().Trim().PadRight(hpLen),
-						x.c[3].v.Value.ToString().Trim().PadRight(aspdLen),
-						x.c[4].v.Value.ToString().Trim().PadRight(mobLen),
-						x.c[5].v.Value.ToString().Trim().PadRight(critLen))));
+							(x.c[0] != null && x.c[0].v != null ? x.c[0].v.Value.ToString().Trim() : "").PadRight(heroLen),
+							(x.c[1] != null && x.c[1].v != null ? x.c[1].v.Value.ToString().Trim() : "").PadRight(effectLen),
+							(x.c[2] != null && x.c[2].v != null ? x.c[2].v.Value.ToString().Trim() : "").PadRight(cooldownLen),
+							(x.c[6] != null && x.c[6].v != null ? x.c[6].v.Value.ToString().Trim() : "").PadRight(atkLen),
+							(x.c[7] != null && x.c[7].v != null ? x.c[7].v.Value.ToString().Trim() : "").PadRight(dpsLen),
+							(x.c[8] != null && x.c[8].v != null ? x.c[8].v.Value.ToString().Trim() : "").PadRight(defLen),
+							(x.c[9] != null && x.c[9].v != null ? x.c[9].v.Value.ToString().Trim() : "").PadRight(hpLen),
+							(x.c[3] != null && x.c[3].v != null ? x.c[3].v.Value.ToString().Trim() : "").PadRight(aspdLen),
+							(x.c[4] != null && x.c[4].v != null ? x.c[4].v.Value.ToString().Trim() : "").PadRight(mobLen),
+							(x.c[5] != null && x.c[5].v != null ? x.c[5].v.Value.ToString().Trim() : "").PadRight(critLen))));
 			}
 
 			FleepBot.Program.SendMessage(convid, msg);

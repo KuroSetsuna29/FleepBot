@@ -45,6 +45,10 @@ namespace FleepBot.Commands
 								&& contact.account_id.Value != FleepBot.Program.ACCOUNT_ID
 								&& contact.account_id.Value != FleepBot.Program.JAMES
 								&& contact.account_id.Value != FleepBot.Program.JENNY
+								&& contact.account_id.Value != FleepBot.Program.GTJ
+								&& contact.account_id.Value != FleepBot.Program.ANDERAN
+								&& contact.account_id.Value != FleepBot.Program.JOEYBANANAS
+								&& contact.account_id.Value != FleepBot.Program.SPOONY
 								/*&& contact.account_id.Value != FleepBot.Program.JACK*/)
 							{
 								members.Add(contact.display_name.Value);

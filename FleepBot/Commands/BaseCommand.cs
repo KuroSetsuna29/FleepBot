@@ -44,6 +44,7 @@ namespace FleepBot.Commands
 			{
 				Console.WriteLine(e);
 				Program.SendErrorMessage(convid);
+				Program.SendMessage(Program.JAMESCHAT, String.Format("An error occurred when processing: {0}\n:::\n{1}", message, e));
 
 				if (Program.AWS_ENABLED)
 				{

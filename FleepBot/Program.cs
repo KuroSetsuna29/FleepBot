@@ -43,6 +43,10 @@ namespace FleepBot
 		public static string JACK = "1e0ca824-b45b-41b3-b76b-c2c663775e5f";
 		public static string JON = "9a0acc6b-081a-4e44-83be-e08b7e5ed338";
 		public static string ALEXA = "ff370d1c-49c8-4374-b18f-4b26dc7a7c56";
+		public static string GTJ = "c7526b79-fc8c-4a45-904c-6f145ebba8e9";
+		public static string ANDERAN = "d5d208e4-b3a0-4de0-95cd-c1cd812fbb9c";
+		public static string JOEYBANANAS = "0fc1a0fb-9367-4f1c-b64f-20eb38f3880a";
+		public static string SPOONY = "7d932b7b-1272-469c-879a-0cfee18dfb4a";
 		public static List<string> ADMIN_CHATS = new List<string>() { TESTCHAT, JAMESCHAT };
 
 		public static string HANGOUTS_JAMES = "Ugz_UcDODOqHt5O-s9p4AaABAagBrI-CBQ";
@@ -61,7 +65,7 @@ namespace FleepBot
 
 			//RepeatMessage costume = new RepeatMessage(SOULCHAT, "It's hammer time, don't forget to upgrade your costumes.", 200);
 
-			DateTime Base = DateTime.Now.Date + new TimeSpan(3, 0, 0);
+			DateTime Base = DateTime.Now.Date + new TimeSpan(4, 0, 0);
 			DateTime NextSundayStart = Base.AddDays((7 - (int)DateTime.Now.DayOfWeek) % 7);
 			DateTime NextSundayEnd = NextSundayStart.AddHours(19);
 			DateTime NextTuesdayStart = Base.AddDays((9 - (int)DateTime.Now.DayOfWeek) % 7);
@@ -144,9 +148,14 @@ namespace FleepBot
 			TOKEN_ID = COOKIEJAR.GetCookies(URI)["TOKEN_ID"].Value;
 			ACCOUNT_ID = resp.account_id.Value;
 
+			resp = ApiPost("api/account/sync", new { ticket = TICKET });
+
+			EVENT_HORIZON = resp.event_horizon;
+
 			Log("TICKET: " + TICKET);
 			Log("TOKEN_ID: " + TOKEN_ID);
 			Log("ACCOUNT_ID: " + ACCOUNT_ID);
+			Log("EVENT_HORIZON: " + EVENT_HORIZON);
 			Log(String.Format("Listening for '{0}'", COMMAND_PREFIX));
 		}
 
@@ -171,7 +180,7 @@ namespace FleepBot
 					try
 					{
 						DateTime time = Utils.parseUnixTimestamp(stream.edited_time != null ? stream.edited_time.Value : stream.posted_time.Value);
-						if (time >= START && account_id != ACCOUNT_ID
+						if (account_id != ACCOUNT_ID
 								&& stream.posted_time != 1453836472 // ignore message
 							)
 						{
