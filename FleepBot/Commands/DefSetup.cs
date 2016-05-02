@@ -75,8 +75,8 @@ namespace FleepBot.Commands
 								(stats.Item2.Max(x => (x.c[9] != null ? x.c[9].v.Value.ToString().Trim().Length : 0) + (x.c[10] != null ? x.c[10].v.Value.ToString().Trim().Length : 0)) ?? 0) + 3,
 								(stats.Item2.Max(x => (x.c[19] != null ? x.c[19].v.Value.ToString().Trim().Length : 0) + (x.c[20] != null ? x.c[20].v.Value.ToString().Trim().Length : 0)) ?? 0) + 3));
 			int petLen = Math.Max(5, Math.Max(
-								(stats.Item2.Max(x => (x.c[21] != null ? x.c[21].v.Value.ToString().Trim().Length : 0) + (x.c[22] != null ? x.c[22].v.Value.ToString().Trim().Length : 0)) ?? 0) + 3,
-								(stats.Item2.Max(x => (x.c[23] != null ? x.c[23].v.Value.ToString().Trim().Length : 0) + (x.c[24] != null ? x.c[24].v.Value.ToString().Trim().Length : 0)) ?? 0) + 3));
+								(stats.Item2.Max(x => (x.c[21] != null ? x.c[21].v.Value.ToString().Trim().Length : 0) + (x.c[22] != null ? x.c[22].v.Value.ToString().Trim().Length : 0)) ?? 0) + 4,
+								(stats.Item2.Max(x => (x.c[23] != null ? x.c[23].v.Value.ToString().Trim().Length : 0) + (x.c[24] != null ? x.c[24].v.Value.ToString().Trim().Length : 0)) ?? 0) + 4));
 			int buffLen = Math.Max(10, Math.Max(
 								(stats.Item2.Max(x => (x.c[25] != null ? x.c[25].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2,
 								(stats.Item2.Max(x => (x.c[26] != null ? x.c[26].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2));
@@ -114,7 +114,7 @@ namespace FleepBot.Commands
 						((x.c[5] != null ? x.c[5].v.Value.ToString().Trim() : "") + "+" + (x.c[6] != null ? x.c[6].v.Value.ToString().Trim() : "")).PadRight(hero3Len),
 						((x.c[7] != null ? x.c[7].v.Value.ToString().Trim() : "") + "+" + (x.c[8] != null ? x.c[8].v.Value.ToString().Trim() : "")).PadRight(hero4Len),
 						((x.c[9] != null ? x.c[9].v.Value.ToString().Trim() : "") + "+" + (x.c[10] != null ? x.c[10].v.Value.ToString().Trim() : "")).PadRight(hero5Len),
-						((x.c[21] != null ? x.c[21].v.Value.ToString().Trim() : "") + "+" + (x.c[22] != null ? x.c[22].v.Value.ToString().Trim() : "")).PadRight(petLen),
+						((x.c[22] != null ? x.c[22].v.Value.ToString().Trim() : "") + "* " + (x.c[21] != null ? x.c[21].v.Value.ToString().Trim() : "")).PadRight(petLen),
 						(x.c[25] != null ? x.c[25].v.Value.ToString().Trim() : "").PadRight(buffLen),
 						(x.c[27] != null ? x.c[27].v.Value.ToString().Trim() : "").PadRight(setItemLen),
 						(x.c[28] != null ? x.c[28].v.Value.ToString().Trim() : "").PadRight(costumeLen),
@@ -129,7 +129,7 @@ namespace FleepBot.Commands
 						((x.c[15] != null ? x.c[15].v.Value.ToString().Trim() : "") + "+" + (x.c[16] != null ? x.c[16].v.Value.ToString().Trim() : "")).PadRight(hero3Len),
 						((x.c[17] != null ? x.c[17].v.Value.ToString().Trim() : "") + "+" + (x.c[18] != null ? x.c[18].v.Value.ToString().Trim() : "")).PadRight(hero4Len),
 						((x.c[19] != null ? x.c[19].v.Value.ToString().Trim() : "") + "+" + (x.c[20] != null ? x.c[20].v.Value.ToString().Trim() : "")).PadRight(hero5Len),
-						((x.c[23] != null ? x.c[23].v.Value.ToString().Trim() : "") + "+" + (x.c[24] != null ? x.c[24].v.Value.ToString().Trim() : "")).PadRight(petLen),
+						((x.c[24] != null ? x.c[24].v.Value.ToString().Trim() : "") + "* " + (x.c[23] != null ? x.c[23].v.Value.ToString().Trim() : "")).PadRight(petLen),
 						(x.c[26] != null ? x.c[26].v.Value.ToString().Trim() : "").PadRight(buffLen))));
 			}
 
