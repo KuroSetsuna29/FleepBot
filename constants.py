@@ -3,8 +3,10 @@ from google.appengine.api.app_identity import get_application_id
 class constants:
 	
 	# Configuration
-	PREFIX = "%" if get_application_id() == "fleepbotstaging" else "/"
-	PREFIX_ADMIN = "%" if get_application_id() == "fleepbotstaging" else "/"
+	DEBUG = True if get_application_id() == "fleepbotstaging" else False
+	PREFIX = "%" if DEBUG else "/"
+	PREFIX_ADMIN = "%" if DEBUG else "/"
+	CREDENTIALS = 'FleepBot-aed756bda1f9.json'
 	
 	# Fleep Config
 	FLEEP_HOST = "https://fleep.io"
@@ -30,3 +32,5 @@ class constants:
 	ALEXA = "ff370d1c-49c8-4374-b18f-4b26dc7a7c56"
 	GTJ = "c7526b79-fc8c-4a45-904c-6f145ebba8e9"
 	ANDERAN = "d5d208e4-b3a0-4de0-95cd-c1cd812fbb9c"
+	JOEYBANANAS = "0fc1a0fb-9367-4f1c-b64f-20eb38f3880a"
+	SPOONY = "7d932b7b-1272-469c-879a-0cfee18dfb4a"

@@ -22,10 +22,14 @@ class echo(webapp2.RequestHandler):
 		self.fleep.account_login(constants.FLEEP_USERNAME, constants.FLEEP_PASSWORD)
 		
 		self.response.headers['Content-Type'] = 'text/plain'
-		
+
 		conv_id = self.request.get('conv_id')
 		account_id = self.request.get('account_id')
 		message = self.request.get('message')
+		cron = self.request.get('cron')
+		
+		if (constants.DEBUG and cron is not None):
+			return
 		
 		self.conv_id = conv_id
 		self.message = message

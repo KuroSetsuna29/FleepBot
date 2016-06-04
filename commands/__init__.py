@@ -1,1 +1,1 @@
-__all__ = [ "echo", "help", "honor", "whoison" ]
+__all__ = [ "awaken", "echo", "help", "honor", "whoison" ]

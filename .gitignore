@@ -230,3 +230,6 @@ _Pvt_Extensions
 .fake/
 
 *.pyc
+
+# PyCharm
+.idea/

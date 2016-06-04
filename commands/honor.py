@@ -58,7 +58,9 @@ class honor(webapp2.RequestHandler):
 				constants.JAMES,
 				constants.JENNY,
 				constants.GTJ,
-				constants.ANDERAN
+				constants.ANDERAN,
+				constants.JOEYBANANAS,
+				constants.SPOONY
 			]:
 				m.append(member['display_name'])
 		

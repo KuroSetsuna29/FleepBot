@@ -64,6 +64,12 @@ class FleepBot(webapp2.RequestHandler):
 					logging.debug("handled as help")
 					self.response.write("handled as help\n\n")
 					
+				# awaken
+				elif re.search(awaken.regex, msg, flags = re.M | re.S | re.I) is not None:
+					taskqueue.add(queue_name='commands', url='/commands/awaken', params={'conv_id': conversation_id, 'account_id': account_id, 'message': msg})
+					logging.debug("handled as awaken")
+					self.response.write("handled as awaken\n\n")
+					
 				# echo
 				elif re.search(echo.regex, msg, flags = re.M | re.S | re.I) is not None:
 					taskqueue.add(queue_name='commands', url='/commands/echo', params={'conv_id': conversation_id, 'account_id': account_id, 'message': msg})

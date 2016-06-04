@@ -39,6 +39,7 @@ class help(webapp2.RequestHandler):
 		
 		cmds = [
 			help.helpmsg,
+			awaken.helpmsg,
 			echo.helpmsg,
 			honor.helpmsg,
 			whoison.helpmsg
