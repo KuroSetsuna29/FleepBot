@@ -6,12 +6,11 @@ class constants:
 	DEBUG = True if get_application_id() == "fleepbotstaging" else False
 	PREFIX = "%" if DEBUG else "/"
 	PREFIX_ADMIN = "%" if DEBUG else "/"
-	CREDENTIALS = 'FleepBot-aed756bda1f9.json'
 	
 	# Fleep Config
 	FLEEP_HOST = "https://fleep.io"
-	FLEEP_USERNAME = "kuroalerts@gmail.com"
-	FLEEP_PASSWORD = "yoink23s"
+	FLEEP_USERNAME = ""
+	FLEEP_PASSWORD = ""
 	
 	# Fleep Conversation IDs
 	CHAT_TEST = "60366328-1f6e-4674-a520-036bf92adb1e"
