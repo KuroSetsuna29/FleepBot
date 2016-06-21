@@ -23,11 +23,11 @@ namespace FleepBot.Commands
 			}
 
 			List<string> heroes = search.Split(',', ' ').Select(x => x.ToLower().Trim()).ToList();
-			string query = "select B, C, D";
-			Tuple<List<dynamic>, List<dynamic>> sets = FleepBot.Program.GetGoogleSheet(convid, "1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE", "763917879", query, 0, "B16:D50");
+			string query = "select B, C, D, E";
+			Tuple<List<dynamic>, List<dynamic>> sets = FleepBot.Program.GetGoogleSheet(convid, "1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE", "763917879", query, 0, "B18:E50");
 
 			query = "select B, C, D, E, F, G, H, I, J";
-			Tuple<List<dynamic>, List<dynamic>> mats = FleepBot.Program.GetGoogleSheet(convid, "1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE", "763917879", query, 0, "B3:J5");
+			Tuple<List<dynamic>, List<dynamic>> mats = FleepBot.Program.GetGoogleSheet(convid, "1w-w0GPyvXt-Aouqkhh5CkGUSsI0m3kevuhq9vZ83lQE", "763917879", query, 0, "B3:J6");
 
 
 			if (sets == null || query == null)
@@ -40,7 +40,8 @@ namespace FleepBot.Commands
 			List<string> heroes1 = sets.Item2.Select<dynamic, string>(y => y.c[0] != null && y.c[0].v != null ? y.c[0].v.Value : "").Where(x => heroes.Any(y => x.ToLower().Contains(y))).ToList();
 			List<string> heroes2 = sets.Item2.Select<dynamic, string>(y => y.c[1] != null && y.c[1].v != null ? y.c[1].v.Value : "").Where(x => heroes.Any(y => x.ToLower().Contains(y))).ToList();
 			List<string> heroes3 = sets.Item2.Select<dynamic, string>(y => y.c[2] != null && y.c[2].v != null ? y.c[2].v.Value : "").Where(x => heroes.Any(y => x.ToLower().Contains(y))).ToList();
-			
+			List<string> heroes4 = sets.Item2.Select<dynamic, string>(y => y.c[3] != null && y.c[3].v != null ? y.c[3].v.Value : "").Where(x => heroes.Any(y => x.ToLower().Contains(y))).ToList();
+
 			if (heroes1.Count > 0)
 			{
 				msg += String.Format(":::\nMats required to awaken '{0}':\n- {1}\n- {2}\n- {3}\n- {4}\n- {5}\n- {6}\nDungeons:\n- {7}\n- {8}\n- {9}\n:::\n",
@@ -83,8 +84,22 @@ namespace FleepBot.Commands
 					mats.Item2[2].c[7].v.Value,
 					mats.Item2[2].c[8].v.Value);
 			}
+			if (heroes4.Count > 0)
+			{
+				msg += String.Format(":::\nMats required to awaken '{0}':\n- {1}\n- {2}\n- {3}\n- {4}\n- {5}\n- {6}\nDungeons:\n- {7}\n- {8}\n- {9}\n:::\n",
+					String.Join(", ", heroes4),
+					mats.Item2[3].c[0].v.Value,
+					mats.Item2[3].c[1].v.Value,
+					mats.Item2[3].c[2].v.Value,
+					mats.Item2[3].c[3].v.Value,
+					mats.Item2[3].c[4].v.Value,
+					mats.Item2[3].c[5].v.Value,
+					mats.Item2[3].c[6].v.Value,
+					mats.Item2[3].c[7].v.Value,
+					mats.Item2[3].c[8].v.Value);
+			}
 
-			if (heroes1.Count + heroes2.Count + heroes3.Count == 0)
+			if (heroes1.Count + heroes2.Count + heroes3.Count + heroes4.Count == 0)
 			{
 				msg = String.Format("No awaken info found for '{0}'.", search);
 			}
