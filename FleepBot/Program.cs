@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using FleepBot.Commands;
+using System.Net.Mail;
 
 namespace FleepBot
 {
@@ -47,10 +48,15 @@ namespace FleepBot
 		public static string ANDERAN = "d5d208e4-b3a0-4de0-95cd-c1cd812fbb9c";
 		public static string JOEYBANANAS = "0fc1a0fb-9367-4f1c-b64f-20eb38f3880a";
 		public static string SPOONY = "7d932b7b-1272-469c-879a-0cfee18dfb4a";
+		public static string HYZNDUS = "874a2cca-3c36-41e6-bdc3-328ad361db2f";
+		public static string TEDDY = "27addfdc-4555-4d32-98aa-5b996a1e7c08";
 		public static List<string> ADMIN_CHATS = new List<string>() { TESTCHAT, JAMESCHAT };
 
 		public static string HANGOUTS_JAMES = "Ugz_UcDODOqHt5O-s9p4AaABAagBrI-CBQ";
 		public static string HANGOUTS_SOULCHAT = "UgyyFKOFE69CUfgfuIJ4AaABAQ";
+		public static string HANGOUTS_HYZNDUS = "UgyWn-UeTToDWysUZip4AaABAQ";
+
+		public static string EMAIL_TEDDY = "";
 
 		public static List<Ban.BanTimer> BANLIST = new List<Ban.BanTimer>();
 		public static List<Remind.Reminder> REMINDERS = new List<Remind.Reminder>();
@@ -65,6 +71,7 @@ namespace FleepBot
 
 			//RepeatMessage costume = new RepeatMessage(SOULCHAT, "It's hammer time, don't forget to upgrade your costumes.", 200);
 
+			/*
 			DateTime Base = DateTime.Now.Date + new TimeSpan(4, 0, 0);
 			DateTime NextSundayStart = Base.AddDays((7 - (int)DateTime.Now.DayOfWeek) % 7);
 			DateTime NextSundayEnd = NextSundayStart.AddHours(19);
@@ -84,6 +91,7 @@ namespace FleepBot
 			RepeatMessage sk_gw_tuesday_end = new RepeatMessage(SKCHAT, "Guild War ending in 5 hours, don't forget to attack.", NextTuesdayEnd, 10080);
 			RepeatMessage sk_gw_friday_start = new RepeatMessage(SKCHAT, "New Guild War Started, please attack.", NextFridayStart, 10080);
 			RepeatMessage sk_gw_friday_end = new RepeatMessage(SKCHAT, "Guild War ending in 5 hours, don't forget to attack.", NextFridayEnd, 10080);
+			*/
 
 			while (!String.IsNullOrEmpty(ACCOUNT_ID))
 			{
@@ -175,7 +183,7 @@ namespace FleepBot
 					string conversation_id = stream.conversation_id;
 					string message = stream.message;
 					string messageNewLines = (message ?? "").Replace("<br/>", "\r\n").Replace("<msg><p>", "").Replace("</p></msg>", "");
-					 string account_id = stream.account_id;
+					string account_id = stream.account_id;
 
 					try
 					{
@@ -386,6 +394,55 @@ namespace FleepBot
 									SendHangouts(HANGOUTS_SOULCHAT, msg);
 								}).Start();
 							}
+							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+							   && !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
+							   && new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", HYZNDUS)), RegexOptions.IgnoreCase).IsMatch(message))
+							{
+								new Thread(() =>
+								{
+									Regex mention = new Regex("<mention[^<>]*>(.*?)</mention>", RegexOptions.IgnoreCase);
+									Regex remove = new Regex("(</?msg>|</?p>)", RegexOptions.IgnoreCase);
+									string conv_name = FleepBot.Program.GetConvName(conversation_id);
+									string contact_name = FleepBot.Program.GetUserName(account_id);
+
+									string msg = String.Format("<b>{0}<br>At {1}<br>{2}</b>:<br>{3}", conv_name, time, contact_name, remove.Replace(mention.Replace(message, "$1"), ""));
+									SendHangouts(HANGOUTS_HYZNDUS, msg);
+								}).Start();
+							}
+							else if (!String.IsNullOrEmpty(EMAIL_TEDDY)
+								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", TEDDY)), RegexOptions.IgnoreCase).IsMatch(message))
+							{
+								new Thread(() =>
+								{
+									Regex mention = new Regex("<mention[^<>]*>(.*?)</mention>", RegexOptions.IgnoreCase);
+									Regex remove = new Regex("(</?msg>|</?p>)", RegexOptions.IgnoreCase);
+									string conv_url = null;
+									string conv_name = FleepBot.Program.GetConvName(conversation_id, out conv_url);
+									string contact_name = null;
+									List<string> msgs = new List<string>();
+
+									dynamic sync_back = ApiPost("api/conversation/sync_backward/" + conversation_id, new { from_message_nr = stream.message_nr, ticket = TICKET });
+									foreach (dynamic sync in sync_back.stream)
+									{
+										DateTime sync_time = Utils.parseUnixTimestamp(sync.posted_time.Value);
+                                        if (sync_time >= time.AddMinutes(-10) && sync.message_nr.Value != stream.message_nr.Value)
+                                        {
+											contact_name = FleepBot.Program.GetUserName(sync.account_id.Value);
+											msgs.Add(String.Format("[{0}] <b>{1}</b>: {2}", TimeZoneInfo.ConvertTimeBySystemTimeZoneId(sync_time, "Central European Time"), contact_name, remove.Replace(mention.Replace(message, "$1"), "")));
+										}
+
+									}
+
+									msgs = msgs.Skip(msgs.Count > 10 ? msgs.Count - 10 : 0).ToList();
+
+									msgs.Insert(0, String.Format("Conversation: {0}", !String.IsNullOrEmpty(conv_url) ? ("<a href='" + conv_url + "'>" + conv_name + "</a>") : (conv_name ?? "No Name")));
+
+									contact_name = FleepBot.Program.GetUserName(account_id);
+									msgs.Add(String.Format("[{0}] <br>{1}</b>: {2}", TimeZoneInfo.ConvertTimeBySystemTimeZoneId(time, "Central European Time"), contact_name, remove.Replace(mention.Replace(message, "$1"), "")));
+
+									SendEmail(EMAIL_TEDDY, "You have been mentioned in Fleep", String.Join("<br>", msgs), true);
+								}).Start();
+							}
 						}
 					}
 					catch (Exception e)
@@ -415,11 +472,48 @@ namespace FleepBot
 			}
 		}
 
+		public static void SendEmail(string recipient, string subject, string body, bool isHtml)
+		{
+			Log("Sending Email (" + recipient + "): " + subject + "\n" + body);
+			string smtp_host = ConfigurationManager.AppSettings.Get("SMTP_HOST");
+			string smtp_port = ConfigurationManager.AppSettings.Get("SMTP_PORT");
+			string smtp_username = ConfigurationManager.AppSettings.Get("SMTP_USERNAME");
+			string smtp_password = ConfigurationManager.AppSettings.Get("SMTP_PASSWORD");
+
+			if (!String.IsNullOrEmpty(smtp_username))
+			{
+				MailMessage message = new MailMessage(smtp_username, recipient, subject, body);
+				message.IsBodyHtml = isHtml;
+
+				using (var smtp = new SmtpClient())
+				{
+					smtp.Credentials = new NetworkCredential
+					{
+						UserName = smtp_username,
+						Password = smtp_password
+					};
+					smtp.Host = smtp_host;
+					smtp.Port = int.Parse(smtp_port);
+					smtp.EnableSsl = true;
+					smtp.Send(message);
+				}
+			}
+		}
+
+
+
 		public static string GetConvName(string conv_id)
+		{
+			string url;
+			return GetConvName(conv_id, out url);
+		}
+
+		public static string GetConvName(string conv_id, out string url)
 		{
 			long? sync_horizon = 0;
 			bool found = false;
 			string name = null;
+			url = null;
 			dynamic conversations = new { };
 			do
 			{
@@ -431,7 +525,8 @@ namespace FleepBot
 				{
 					if (conversation.conversation_id != null && conversation.conversation_id.Value.ToLower() == conv_id.ToLower())
 					{
-						name = conversation.topic;
+						name = (conversation.topic != null && !String.IsNullOrEmpty(conversation.topic.Value) ? conversation.topic : conversation.default_topic) ?? "No Name Set";
+						url = conversation.autojoin_url;
 
 						found = true;
 						break;

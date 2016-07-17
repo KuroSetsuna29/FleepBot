@@ -22,8 +22,8 @@ namespace FleepBot.Commands
 				return;
 			}
 			
-			string query = String.Format("select A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH where lower(A) matches lower('.*({0}).*')", String.Join("|", search));
-			Tuple<List<dynamic>, List<dynamic>> stats = FleepBot.Program.GetGoogleSheet(convid, "1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk", "1310592142", query, 0, "A2:AH");
+			string query = String.Format("select A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL, AM, AN, AO, AP, AQ where lower(A) matches lower('.*({0}).*')", String.Join("|", search));
+			Tuple<List<dynamic>, List<dynamic>> stats = FleepBot.Program.GetGoogleSheet(convid, "1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk", "1310592142", query, 0, "A2:AQ");
 
 			if (stats == null)
 			{
@@ -46,7 +46,7 @@ namespace FleepBot.Commands
 			{
 				int nameLen = Math.Max((stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[1].v.Value.ToString().Trim().Length) ?? 0) + 2, 6);
 				int updatedLen = Math.Max((stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[2].f.Value.ToString().Trim().Length) ?? 0) + 2, 14);
-				int heroLen = Math.Max(6, Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max(
+				int heroLen = Math.Max(6, Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max( Math.Max(
 									(stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[3] != null && x.c[3].v != null ? x.c[3].v.Value.ToString().Trim().Length : 0) ?? 0) + 2,
 									(stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[5] != null && x.c[5].v != null ? x.c[5].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
 									(stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[7] != null && x.c[7].v != null ? x.c[7].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
@@ -62,7 +62,11 @@ namespace FleepBot.Commands
                                     (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[27] != null && x.c[27].v != null ? x.c[27].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
                                     (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[29] != null && x.c[29].v != null ? x.c[29].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
                                     (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[31] != null && x.c[31].v != null ? x.c[31].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
-                                    (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[33] != null && x.c[33].v != null ? x.c[33].v.Value.ToString().Trim().Length : 0) ?? 0) + 2));
+                                    (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[33] != null && x.c[33].v != null ? x.c[33].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
+									(stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[35] != null && x.c[35].v != null ? x.c[35].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
+                                    (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[37] != null && x.c[37].v != null ? x.c[37].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
+                                    (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[39] != null && x.c[39].v != null ? x.c[39].v.Value.ToString().Trim().Length : 0) ?? 0) + 2),
+                                    (stats.Item2.Where(x => x.c[0].v.Value == guild).Max(x => x.c[41] != null && x.c[41].v != null ? x.c[41].v.Value.ToString().Trim().Length : 0) ?? 0) + 2));
 
 				string msg = String.Format(":::\n{0}\n{1}{2}{3}{4}\n",
 						guild,
@@ -88,7 +92,11 @@ namespace FleepBot.Commands
 								+ (x.c[27] != null && x.c[27].v != null && !String.IsNullOrWhiteSpace(x.c[27].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[27].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[28].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[28].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[28].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[28].v.Value.ToString().Trim()) : "")
 								+ (x.c[29] != null && x.c[29].v != null && !String.IsNullOrWhiteSpace(x.c[29].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[29].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[30].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[30].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[30].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[30].v.Value.ToString().Trim()) : "")
 								+ (x.c[31] != null && x.c[31].v != null && !String.IsNullOrWhiteSpace(x.c[31].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[31].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[32].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[32].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[32].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[32].v.Value.ToString().Trim()) : "")
-								+ (x.c[33] != null && x.c[33].v != null && !String.IsNullOrWhiteSpace(x.c[33].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[33].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[34].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[34].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[34].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[34].v.Value.ToString().Trim()) : ""))))
+								+ (x.c[33] != null && x.c[33].v != null && !String.IsNullOrWhiteSpace(x.c[33].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[33].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[34].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[34].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[34].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[34].v.Value.ToString().Trim()) : "")
+								+ (x.c[35] != null && x.c[35].v != null && !String.IsNullOrWhiteSpace(x.c[35].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[35].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[36].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[36].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[36].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[36].v.Value.ToString().Trim()) : "")
+								+ (x.c[37] != null && x.c[37].v != null && !String.IsNullOrWhiteSpace(x.c[37].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[37].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[38].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[38].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[38].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[38].v.Value.ToString().Trim()) : "")
+								+ (x.c[39] != null && x.c[39].v != null && !String.IsNullOrWhiteSpace(x.c[39].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[39].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[40].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[40].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[40].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[40].v.Value.ToString().Trim()) : "")
+								+ (x.c[41] != null && x.c[41].v != null && !String.IsNullOrWhiteSpace(x.c[41].v.Value.ToString()) ? ("\n" + "".PadRight(nameLen+updatedLen) + x.c[41].v.Value.ToString().Trim().PadRight(heroLen) + (skill1.IsMatch(x.c[42].v.Value.ToString().Trim()) ? "(Z)" : (skill2.IsMatch(x.c[42].v.Value.ToString().Trim()) ? "(H)" : (skill3.IsMatch(x.c[42].v.Value.ToString().Trim()) ? "(S)" : ""))).PadRight(4) + x.c[42].v.Value.ToString().Trim()) : ""))))
 						+ "\n:::\nhttps://docs.google.com/spreadsheets/d/1Ge91fmZEbNNLzAc4LwoeIqN8w5pdYMwbxgNuAjd25Pk/edit#gid=1310592142";
 
 				FleepBot.Program.SendMessage(convid, msg);
