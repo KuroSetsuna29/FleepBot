@@ -14,6 +14,16 @@ namespace FleepBot
             DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             return dt.AddSeconds(timestamp).ToLocalTime();
         }
+
+        public static int ExcelColumnToIndex(string text)
+        {
+            int sum = 0;
+            foreach (char c in text)
+            {
+                sum = sum * 26 + c - 'A' + 1;
+            }
+            return sum - 1;
+        }
     }
 
     public static class ObjectToDictionaryHelper
