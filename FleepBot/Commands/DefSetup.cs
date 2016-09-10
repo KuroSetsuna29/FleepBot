@@ -31,50 +31,49 @@ namespace FleepBot.Commands
 				return;
 			}
 
-            int colName = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "name").id.Value);
-            int colHero1A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero1a").id.Value);
-            int colUpgrade1A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade1a").id.Value);
-            int colSkill1A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill1a").id.Value);
-            int colHero2A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero2a").id.Value);
-            int colUpgrade2A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade2a").id.Value);
-            int colSkill2A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill2a").id.Value);
-            int colHero3A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero3a").id.Value);
-            int colUpgrade3A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade3a").id.Value);
-            int colSkill3A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill3a").id.Value);
-            int colHero4A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero4a").id.Value);
-            int colUpgrade4A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade4a").id.Value);
-            int colSkill4A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill4a").id.Value);
-            int colHero5A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero5a").id.Value);
-            int colUpgrade5A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade5a").id.Value);
-            int colSkill5A = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill5a").id.Value);
-            int colHero1B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero1b").id.Value);
-            int colUpgrade1B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade1b").id.Value);
-            int colSkill1B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill1b").id.Value);
-            int colHero2B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero2b").id.Value);
-            int colUpgrade2B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade2b").id.Value);
-            int colSkill2B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill2b").id.Value);
-            int colHero3B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero3b").id.Value);
-            int colUpgrade3B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade3b").id.Value);
-            int colSkill3B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill3b").id.Value);
-            int colHero4B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero4b").id.Value);
-            int colUpgrade4B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade4b").id.Value);
-            int colSkill4B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill4b").id.Value);
-            int colHero5B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "hero5b").id.Value);
-            int colUpgrade5B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade5b").id.Value);
-            int colSkill5B = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill5b").id.Value);
-            int colPet1 = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "pet 1").id.Value);
-            int colPetStar1 = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "pet star 1").id.Value);
-            int colPet2 = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "pet 2").id.Value);
-            int colPetStar2 = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "pet star 2").id.Value);
-            int colTranscend1 = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "lvl extreme 1").id.Value);
-            int colTranscend2 = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "lvl extreme 2").id.Value);
-            int colSetItem = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "setitemset").id.Value);
-            int colCostume = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "costume").id.Value);
-            int col7Skill = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "7*skill").id.Value);
-            int colHeroQuality = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "heroquality").id.Value);
-            int colRating = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "rating").id.Value);
-            int colRank = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "rank").id.Value);
-            int col7Count = Utils.ExcelColumnToIndex(stats.Item1.SingleOrDefault(c => c.label.Value.Trim().ToLower() == "7*count").id.Value);
+            int colName = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "name").id.Value);
+            int colHero1A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero1a").id.Value);
+            int colUpgrade1A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade1a").id.Value);
+            int colSkill1A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill1a").id.Value);
+            int colHero2A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero2a").id.Value);
+            int colUpgrade2A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade2a").id.Value);
+            int colSkill2A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill2a").id.Value);
+            int colHero3A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero3a").id.Value);
+            int colUpgrade3A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade3a").id.Value);
+            int colSkill3A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill3a").id.Value);
+            int colHero4A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero4a").id.Value);
+            int colUpgrade4A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade4a").id.Value);
+            int colSkill4A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill4a").id.Value);
+            int colHero5A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero5a").id.Value);
+            int colUpgrade5A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade5a").id.Value);
+            int colSkill5A = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill5a").id.Value);
+            int colHero1B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero1b").id.Value);
+            int colUpgrade1B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade1b").id.Value);
+            int colSkill1B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill1b").id.Value);
+            int colHero2B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero2b").id.Value);
+            int colUpgrade2B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade2b").id.Value);
+            int colSkill2B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill2b").id.Value);
+            int colHero3B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero3b").id.Value);
+            int colUpgrade3B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade3b").id.Value);
+            int colSkill3B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill3b").id.Value);
+            int colHero4B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero4b").id.Value);
+            int colUpgrade4B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade4b").id.Value);
+            int colSkill4B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill4b").id.Value);
+            int colHero5B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "hero5b").id.Value);
+            int colUpgrade5B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "upgrade5b").id.Value);
+            int colSkill5B = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "shortskill5b").id.Value);
+            int colPet1 = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "pet 1").id.Value);
+            int colPetStar1 = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "pet star 1").id.Value);
+            int colPet2 = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "pet 2").id.Value);
+            int colPetStar2 = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "pet star 2").id.Value);
+            int colTranscend1 = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "lvl extreme 1").id.Value);
+            int colTranscend2 = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "lvl extreme 2").id.Value);
+            int colSetItem = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "setitemset").id.Value);
+            int colCostume = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "costume").id.Value);
+            int col7Skill = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "7*skill").id.Value);
+            int colHeroQuality = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "heroquality").id.Value);
+            int colRating = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "rating").id.Value);
+            int colRank = Utils.ExcelColumnToIndex(stats.Item1.FirstOrDefault(c => c.label.Value.Trim().ToLower() == "rank").id.Value);
             
 
 			int nameLen = Math.Max((stats.Item2.Max(x => x.c[colName].v.Value.ToString().Trim().Length) ?? 0) + 2, 6);
@@ -120,12 +119,11 @@ namespace FleepBot.Commands
             int heroQualityLen = Math.Max((stats.Item2.Max(x => (x.c[colHeroQuality] != null ? x.c[colHeroQuality].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 13);
             int ratingLen = Math.Max((stats.Item2.Max(x => (x.c[colRating] != null ? x.c[colRating].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 8);
 			int rankLen = Math.Max((stats.Item2.Max(x => (x.c[colRank] != null ? x.c[colRank].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 6);
-			int count7sLen = Math.Max((stats.Item2.Max(x => (x.c[col7Count] != null ? x.c[col7Count].v.Value.ToString().Trim().Length : 0)) ?? 0) + 2, 9);
 
 			string msg = String.Format("No member(s) found for '{0}'. Check spelling.", search);
 			if (stats.Item2.Count > 0)
 			{
-				msg = String.Format(":::\n{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}\n",
+				msg = String.Format(":::\n{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}\n",
 						"Name".PadRight(nameLen),
 						"Hero1".PadRight(hero1Len),
                         "Skill1".PadRight(skill1Len),
@@ -144,9 +142,8 @@ namespace FleepBot.Commands
 						"7*Skill".PadRight(skill7sLen),
                         "HeroQuality".PadRight(heroQualityLen),
                         "Rating".PadRight(ratingLen),
-						"Rank".PadRight(rankLen),
-						"7*Count".PadRight(count7sLen))
-						+ String.Join("\n", stats.Item2.Select(x => String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}\n{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}{30}{31}{32}",
+						"Rank".PadRight(rankLen))
+						+ String.Join("\n", stats.Item2.Select(x => String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}\n{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}{30}{31}",
 						x.c[colName].v.Value.ToString().Trim().PadRight(nameLen),
 						((x.c[colHero1A] != null ? x.c[colHero1A].v.Value.ToString().Trim() : "") + "+" + (x.c[colUpgrade1A] != null ? x.c[colUpgrade1A].v.Value.ToString().Trim() : "")).PadRight(hero1Len),
                         (x.c[colSkill1A] != null ? x.c[colSkill1A].v.Value.ToString().Trim() : "").PadRight(skill1Len),
@@ -166,7 +163,6 @@ namespace FleepBot.Commands
                         (x.c[colHeroQuality] != null ? x.c[colHeroQuality].v.Value.ToString().Trim() : "").PadRight(heroQualityLen),
                         (x.c[colRating] != null ? x.c[colRating].v.Value.ToString().Trim() : "").PadRight(ratingLen),
 						(x.c[colRank] != null ? x.c[colRank].v.Value.ToString().Trim() : "").PadRight(rankLen),
-						(x.c[col7Count] != null ? x.c[col7Count].v.Value.ToString().Trim() : "").PadRight(count7sLen),
 						"".PadRight(nameLen),
 						((x.c[colHero1B] != null ? x.c[colHero1B].v.Value.ToString().Trim() : "") + "+" + (x.c[colUpgrade1A] != null ? x.c[colUpgrade1A].v.Value.ToString().Trim() : "")).PadRight(hero1Len),
                         (x.c[colSkill1B] != null ? x.c[colSkill1B].v.Value.ToString().Trim() : "").PadRight(skill1Len),
