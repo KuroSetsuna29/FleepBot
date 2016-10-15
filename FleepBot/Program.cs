@@ -49,12 +49,14 @@ namespace FleepBot
 		public static string JOEYBANANAS = "0fc1a0fb-9367-4f1c-b64f-20eb38f3880a";
 		public static string SPOONY = "7d932b7b-1272-469c-879a-0cfee18dfb4a";
 		public static string HYZNDUS = "874a2cca-3c36-41e6-bdc3-328ad361db2f";
+		public static string PHILIP = "01a8b354-cc9d-4d50-a601-c7d151f90a8e";
 		public static string TEDDY = "27addfdc-4555-4d32-98aa-5b996a1e7c08";
 		public static List<string> ADMIN_CHATS = new List<string>() { TESTCHAT, JAMESCHAT };
 
 		public static string HANGOUTS_JAMES = "Ugz_UcDODOqHt5O-s9p4AaABAagBrI-CBQ";
 		public static string HANGOUTS_SOULCHAT = "UgyyFKOFE69CUfgfuIJ4AaABAQ";
 		public static string HANGOUTS_HYZNDUS = "UgyWn-UeTToDWysUZip4AaABAQ";
+		public static string HANGOUTS_PHILIP = "UgyLgH3eniaQxI-GeOF4AaABAQ";
 
 		public static string EMAIL_TEDDY = "";
 
@@ -361,7 +363,8 @@ namespace FleepBot
 								Arena7s command = new Arena7s();
 								new Thread(() => command.process(conversation_id, messageNewLines, account_id)).Start();
 							}
-							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+
+							if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
 								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
 								&& account_id.ToLower() != JAMES
 								&& (new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JAMES)), RegexOptions.IgnoreCase).IsMatch(message)
@@ -379,9 +382,10 @@ namespace FleepBot
 									SendHangouts(HANGOUTS_JAMES, msg);
 								}).Start();
 							}
-							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
-							   && !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
-							   && new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JACK, JON, ALEXA)), RegexOptions.IgnoreCase).IsMatch(message))
+
+							if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
+								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", JACK, JON, ALEXA)), RegexOptions.IgnoreCase).IsMatch(message))
 							{
 								new Thread(() =>
 								{
@@ -394,9 +398,10 @@ namespace FleepBot
 									SendHangouts(HANGOUTS_SOULCHAT, msg);
 								}).Start();
 							}
-							else if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
-							   && !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
-							   && new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", HYZNDUS)), RegexOptions.IgnoreCase).IsMatch(message))
+
+							if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
+								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", HYZNDUS)), RegexOptions.IgnoreCase).IsMatch(message))
 							{
 								new Thread(() =>
 								{
@@ -409,7 +414,24 @@ namespace FleepBot
 									SendHangouts(HANGOUTS_HYZNDUS, msg);
 								}).Start();
 							}
-							else if (!String.IsNullOrEmpty(EMAIL_TEDDY)
+
+							if (!String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("PYTHON3"))
+								&& !String.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("HANGOUTS_CMD"))
+								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", PHILIP)), RegexOptions.IgnoreCase).IsMatch(message))
+							{
+								new Thread(() =>
+								{
+									Regex mention = new Regex("<mention[^<>]*>(.*?)</mention>", RegexOptions.IgnoreCase);
+									Regex remove = new Regex("(</?msg>|</?p>)", RegexOptions.IgnoreCase);
+									string conv_name = FleepBot.Program.GetConvName(conversation_id);
+									string contact_name = FleepBot.Program.GetUserName(account_id);
+
+									string msg = String.Format("<b>{0}<br>At {1}<br>{2}</b>:<br>{3}", conv_name, time, contact_name, remove.Replace(mention.Replace(message, "$1"), ""));
+									SendHangouts(HANGOUTS_PHILIP, msg);
+								}).Start();
+							}
+
+							if (!String.IsNullOrEmpty(EMAIL_TEDDY)
 								&& new Regex(String.Format("^<msg><p>.*<mention [^<>]*account_id=\"({0})\".*</p></msg>$", String.Join("|", TEDDY)), RegexOptions.IgnoreCase).IsMatch(message))
 							{
 								new Thread(() =>
@@ -425,8 +447,8 @@ namespace FleepBot
 									foreach (dynamic sync in sync_back.stream)
 									{
 										DateTime sync_time = Utils.parseUnixTimestamp(sync.posted_time.Value);
-                                        if (sync_time >= time.AddMinutes(-10) && sync.message_nr.Value != stream.message_nr.Value)
-                                        {
+										if (sync_time >= time.AddMinutes(-10) && sync.message_nr.Value != stream.message_nr.Value)
+										{
 											contact_name = FleepBot.Program.GetUserName(sync.account_id.Value);
 											msgs.Add(String.Format("[{0}] <b>{1}</b>: {2}", TimeZoneInfo.ConvertTimeBySystemTimeZoneId(sync_time, "Central European Time"), contact_name, remove.Replace(mention.Replace(message, "$1"), "")));
 										}
