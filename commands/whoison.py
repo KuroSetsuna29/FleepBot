@@ -9,7 +9,7 @@ from constants import constants
 from fleepclient.api import FleepApi
 from fleepclient.api import FleepApiBase
 
-regex = "^\{0}whoison(?:\s+(.+))?$".format(constants.PREFIX)
+regex = "^\{0}(?:whoison|night'?swatch)(?:\s+(.+))?$".format(constants.PREFIX)
 usage = "{0}whoison _[Hours]_".format(constants.PREFIX)
 helpmsg = usage + " - Show who was on Fleep in the past _Hours_ hours (optional), default 1 hour"
 

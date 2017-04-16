@@ -1,5 +1,5 @@
 cron:
-- description: remind costume
-  url: /commands/echo?conv_id=d43d3128-3db9-4147-b46c-f8efd11573d4&message=/echo%20Don%27t%20forget%20to%20upgrade%20your%20costumes&cron=1
-  schedule: every 200 minutes
-  timezone: America/New_York
+#- description: remind costume
+#  url: /commands/echo?conv_id=d43d3128-3db9-4147-b46c-f8efd11573d4&message=/echo%20Don%27t%20forget%20to%20upgrade%20your%20costumes&cron=1
+#  schedule: every 200 minutes
+#  timezone: America/New_York

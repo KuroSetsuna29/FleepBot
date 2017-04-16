@@ -1,6 +1,7 @@
 
 import json
 import logging
+import math
 import re
 import urllib2
 
@@ -25,3 +26,40 @@ class utils:
 			raise Exception('unable to find json from google sheet response')
 		
 		return json.loads(match.group(1))
+	
+	@staticmethod
+	def RangeLetterToInt(letter):
+		
+		letter = letter.upper()
+		length = len(letter)
+		ret = 0
+		
+		for i in range(0, length):
+			ret += (ord(letter[length - i - 1]) - (65 if i == 0 else 64)) * pow(26, i)
+		
+		return ret
+	
+	@staticmethod
+	def RangeIntToLetter(x):
+		
+		i = x % 26
+		ret = chr(i + 65)
+		x = math.floor(x / 26)
+		
+		while x > 0:
+			x -= 1
+			ret = chr(int(x % 26) + 65) + ret
+			x = math.floor(x / 26)
+		
+		return ret
+	
+	@staticmethod
+	def GoogleSheetRange(start, end):
+		
+		start = start.upper()
+		end = end.upper()
+		
+		startInt = utils.RangeLetterToInt(start)
+		endInt = utils.RangeLetterToInt(end)
+		
+		return ', '.join(('`' + utils.RangeIntToLetter(x) + '`') for x in list(range(startInt, endInt + 1)))

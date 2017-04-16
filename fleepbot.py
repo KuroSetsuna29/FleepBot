@@ -70,6 +70,12 @@ class FleepBot(webapp2.RequestHandler):
 					logging.debug("handled as awaken")
 					self.response.write("handled as awaken\n\n")
 					
+				# defsetup
+				elif re.search(defsetup.regex, msg, flags = re.M | re.S | re.I) is not None:
+					taskqueue.add(queue_name='commands', url='/commands/defsetup', params={'conv_id': conversation_id, 'account_id': account_id, 'message': msg})
+					logging.debug("handled as defsetup")
+					self.response.write("handled as defsetup\n\n")
+					
 				# echo
 				elif re.search(echo.regex, msg, flags = re.M | re.S | re.I) is not None:
 					taskqueue.add(queue_name='commands', url='/commands/echo', params={'conv_id': conversation_id, 'account_id': account_id, 'message': msg})

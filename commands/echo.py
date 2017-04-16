@@ -26,10 +26,6 @@ class echo(webapp2.RequestHandler):
 		conv_id = self.request.get('conv_id')
 		account_id = self.request.get('account_id')
 		message = self.request.get('message')
-		cron = self.request.get('cron')
-		
-		if (constants.DEBUG and cron is not None):
-			return
 		
 		self.conv_id = conv_id
 		self.message = message
