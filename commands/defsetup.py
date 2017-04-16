@@ -32,13 +32,13 @@ class defsetup(webapp2.RequestHandler):
 		self.message = message
 		
 		matches = re.search(regex, message, flags=re.M | re.S | re.I)
+		search = matches.group(1)
 		
-		if matches is None:
+		if search is None:
 			self.fleep.message_send(conv_id, "Error: Please specify a guild member. Example: {0}".format(usage))
 			self.response.write("Error: Please specify a guild member. Example: {0}".format(usage))
 			return
 		
-		search = matches.group(1)
 		members = re.split("[, ]", search.lower())
 		
 		query = "select {0} where lower({1}) matches '.*({2}).*'".format(utils.GoogleSheetRange("A", "CV"), "A", "|".join(members))
@@ -188,7 +188,7 @@ class defsetup(webapp2.RequestHandler):
 	
 	def handle_exception(self, exception, mode):
 		if self.fleep is not None:
-			self.fleep.message_send(self.conv_id, "Error: Something unexpected happened.")
+			self.fleep.message_send(self.conv_id, "Error: Something unexpected happened.\nPlease excuse me while I clean up aisle 3, in the meantime you can visit http://bit.ly/defsetup")
 			self.fleep.message_send(constants.CHAT_JAMES, "An error occurred when processing: {0}\n:::\n{1}".format(self.message, exception))
 		
 		# run the default exception handling
